@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>buttons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="../ext/resources/css/ext-all.css"/>
+    <script type="text/javascript" src="../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../ext/ext-all.js"></script>
+<script type="text/Javascript">
+
+Ext.onReady(function(){
+
+    var simple = new Ext.FormPanel({"width":800,"frame":true,"title":"HTML::FormFu::ExtJS - buttons","items":[{"hideLabel":true,"id":null,"fieldLabel":null,"xtype":"textfield"}],"buttons":[{"text":"Default Button","name":null,"id":null},{"text":"<i>some</i> <b>markup</b>","name":"cnb1","id":null},{"text":"Submit","name":"submit","id":null,"type":"submit"},{"text":"Reset","name":null,"id":null,"type":"reset"},{"handler":function() { alert("click") },"text":"Handler","name":null,"id":null}]});;
+
+    simple.render(document.body);
+});
+</script>
+
+</head>
+<body>
+
+
+<a href="../forms/buttons.yml">Form config file</a><br/><br/>
+
+
+
+</body>
+</html>
+

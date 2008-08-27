@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>multi</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css" media="all">
+	@import "../css/vertically-aligned.css";
+</style>
+<!--[if IE]>
+	<style type="text/css" media="all">
+		@import "../css/vertically-aligned-ie.css";
+	</style>
+<![endif]-->
+
+</head>
+<body>
+
+<a href="../forms/multi.yml">Form config file</a><br/><br/>
+
+<form action="" method="post">
+<div class="multi label">
+<label>one master label</label>
+<span class="elements">
+<input name="r1" type="text" />
+<input name="r2" type="text" />
+<input name="r3" type="text" />
+</span>
+</div>
+<div class="multi">
+<span class="elements">
+<label>One</label>
+<input name="r1" type="text" />
+<label>Two</label>
+<input name="r2" type="text" />
+<label>Three</label>
+<input name="r3" type="text" />
+</span>
+</div>
+<div class="multi label">
+<label>Appointment (fixed width)</label>
+<span class="elements" defaults="HASH(0xb215c4)" individualWidth="ARRAY(0x93cff4)" labelWidth="35" layoutConfig="HASH(0x93a160)" width="150">
+<label>Date</label>
+<input name="r11" type="text" />
+<label>Time</label>
+<input name="r2" type="text" />
+<input type="checkbox" />
+<label>st</label>
+</span>
+</div>
+<div class="multi label">
+<label>Appointment (individual width)</label>
+<span class="elements" defaults="HASH(0xb32e28)" individualWidth="ARRAY(0x9fd4a0)" labelWidth="35" layoutConfig="HASH(0xb34840)">
+<label>Date</label>
+<input name="r11" type="text" />
+<label>Time</label>
+<input name="r2" type="text" />
+<input type="checkbox" />
+<label>st</label>
+</span>
+</div>
+<div class="multi">
+<span class="elements" defaults="HASH(0x9bf4dc)" individualWidth="ARRAY(0xb213a8)" labelWidth="35" layoutConfig="HASH(0xb283b8)">
+<label>Date</label>
+<input name="r11" type="text" />
+<label>Time</label>
+<input name="r2" type="text" />
+<input type="checkbox" />
+<label>st</label>
+</span>
+</div>
+<div class="multi label">
+<label>Relative width</label>
+<span class="elements" defaults="HASH(0xb28478)" individualColumnWidth="ARRAY(0xb21354)" labelWidth="35">
+<label>Date</label>
+<input name="r11" type="text" />
+<label>Time</label>
+<input name="r2" type="text" />
+<input type="checkbox" />
+<label>st</label>
+</span>
+</div>
+</form>
+
+
+</body>
+</html>
+
