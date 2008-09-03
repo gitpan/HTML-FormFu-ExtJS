@@ -20,10 +20,11 @@ requires:
   Data::Dumper: 0
   Exporter: 5.57
   HTML::FormFu: 0.03
-  JavaScript::Dumper: 0.004
+  Hash::Merge::Simple: 0.03
+  JavaScript::Dumper: 0.008
   Scalar::Util: 0
   Tie::Hash::Indexed: 0
   perl: 5.8.1
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.02

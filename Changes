@@ -1,4 +1,11 @@
 Revision history for Perl extension HTML::FormFu::ExtJS.
 
-0.01  Sat Aug  27 17:27:52 2008 rev 1145
+0.02  Sat Sep 03 2008
+	- removed HashRefInflator dependency
+	- Grid added and documented
+	- more tests
+	- replaced _options with render_data->{options}
+	- validation_response returns a perl object instead of a JSON string
+	
+0.01  Sat Aug  27 2008 rev 1145
 	- inital release

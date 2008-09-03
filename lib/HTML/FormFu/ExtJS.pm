@@ -8,7 +8,7 @@ use utf8;
 use JavaScript::Dumper;
 use Tie::Hash::Indexed;
 use Data::Dumper;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 $VERSION = eval $VERSION;    # see L<perlmodstyle>
 use HTML::FormFu::Util qw/require_class/;
 
@@ -258,40 +258,32 @@ sub _ext_columns {
 
 =head2 validation_response
 
-Returns the validation response ExtJS expects. If the submitted values have errors
-the error strings are formatted as a JSON string and returned. Send this string
+Returns the validation response ExtJS expects as a perl Object. If the submitted values have errors
+the error strings are formatted returned as well. Send this object as L<JSON> string
 back to the user if you want ExtJS to mark the invalid fields or to report a success.
 
-If the submission was successful the response contains a C<data> object which contains
+If the submission was successful the response contains a C<data> property which contains
 all submitted values.
 
 Examples:
 
-  { "success" : 0,
-    "errors"  : [
-      { "msg" : "This field is required",
-        "id"  : "field" }
+  { "success" => 0,
+    "errors"  => [
+      { "msg" => "This field is required",
+        "id"  => "field" }
     ]
   }
 
 
-  { "success" : 1,
-    "data"    : { field: "value" }
+  { "success" => 1,
+    "data"    => { field: "value" }
   }
-
-=head2 _validation_response
-
-Acts like L</validation_response> but returns a perl object instead.
 
 =cut
 
-*ext_validation = \&_validation_response;
+*ext_validation = \&validation_response;
 
 sub validation_response {
-	return js_dumper( shift->_validation_response );
-}
-
-sub _validation_response {
 	my $form = shift;
 	if ( $form->submitted_and_valid ) {
 		my $return = { success => 1 };
@@ -367,7 +359,6 @@ Latest development version is avaiable from L<http://html-formfu.googlecode.com/
 
 =item Write a Catalyst example application with validation, data grids and DBIC (sqlite).
 
-=item L<HTML::FormFu::ExtJS::Grid>
 
 =back
 

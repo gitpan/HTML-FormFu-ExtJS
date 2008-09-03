@@ -12,9 +12,10 @@ requires 'Exporter' => '5.57';
 requires 'HTML::FormFu' => "0.03";
 requires 'Scalar::Util' => 0;
 requires 'Carp' => 0;
-requires 'JavaScript::Dumper' => '0.004';
+requires 'JavaScript::Dumper' => '0.008';
 requires 'Tie::Hash::Indexed' => 0;
 requires 'Data::Dumper' => 0;
+requires 'Hash::Merge::Simple' => '0.03';
 tests 't/*.t';
 
 no_index directory => 'examples';
