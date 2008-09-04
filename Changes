@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::FormFu::ExtJS.
 
+0.03 Sep 04 2008
+	- fixed deps for tests
+
 0.02  Sat Sep 03 2008
 	- removed HashRefInflator dependency
 	- Grid added and documented

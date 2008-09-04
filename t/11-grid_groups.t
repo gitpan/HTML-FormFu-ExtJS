@@ -13,6 +13,7 @@ my $schema = DBICTest->init_schema();
 
 BEGIN {
 	eval "use DBIx::Class";
+	eval "use DBIx::Class::Schema";
     eval "use DBD::SQLite";
     eval "use HTML::FormFu::Model::DBIC";
     plan $@
