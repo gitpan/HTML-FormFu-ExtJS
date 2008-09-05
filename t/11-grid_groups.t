@@ -12,10 +12,7 @@ use Data::Dumper;
 my $schema = DBICTest->init_schema();
 
 BEGIN {
-	eval "use DBIx::Class";
-	eval "use DBIx::Class::Schema";
-    eval "use DBD::SQLite";
-    eval "use HTML::FormFu::Model::DBIC";
+eval "use DBIx::Class; use DBD::SQLite; use HTML::FormFu::Model::DBIC";
     plan $@
         ? ( skip_all => 'needs DBIx::Class, HTML::FormFu::Model::DBIC and DBD::SQLite for testing' )
         : ( tests => 1 );
