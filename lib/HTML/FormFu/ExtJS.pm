@@ -8,7 +8,7 @@ use utf8;
 use JavaScript::Dumper;
 use Tie::Hash::Indexed;
 use Data::Dumper;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 $VERSION = eval $VERSION;    # see L<perlmodstyle>
 use HTML::FormFu::Util qw/require_class/;
 

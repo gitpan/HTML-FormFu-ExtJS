@@ -1,6 +1,9 @@
 Revision history for Perl extension HTML::FormFu::ExtJS.
 
 0.04 Sep 04 2008
+	- finally finally fixed deps for tests
+
+0.04 Sep 04 2008
 	- finally fixed deps for tests
 	
 0.03 Sep 04 2008

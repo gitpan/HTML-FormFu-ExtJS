@@ -6,10 +6,7 @@ use warnings;
 
 use lib qw(t/lib);
 
-use DBICTest;
-use Data::Dumper;
 
-my $schema = DBICTest->init_schema();
 
 BEGIN {
 	eval "use DBIx::Class; use DBD::SQLite;";
@@ -17,6 +14,12 @@ BEGIN {
         ? ( skip_all => 'needs DBIx::Class and DBD::SQLite for testing' )
         : ( tests => 4 );
 }
+
+
+use DBICTest;
+use Data::Dumper;
+
+my $schema = DBICTest->init_schema();
 
 my $rs = $schema->resultset("Artist")->search(undef, {order_by => 'name asc'});
 

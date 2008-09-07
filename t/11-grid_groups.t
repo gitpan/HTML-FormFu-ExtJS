@@ -6,10 +6,6 @@ use warnings;
 
 use lib qw(t/lib);
 
-use DBICTest;
-use Data::Dumper;
-
-my $schema = DBICTest->init_schema();
 
 BEGIN {
 eval "use DBIx::Class; use DBD::SQLite; use HTML::FormFu::Model::DBIC";
@@ -17,6 +13,13 @@ eval "use DBIx::Class; use DBD::SQLite; use HTML::FormFu::Model::DBIC";
         ? ( skip_all => 'needs DBIx::Class, HTML::FormFu::Model::DBIC and DBD::SQLite for testing' )
         : ( tests => 1 );
 }
+
+
+
+use DBICTest;
+use Data::Dumper;
+
+my $schema = DBICTest->init_schema();
 
 $Data::Dumper::Indent = 0;
 
