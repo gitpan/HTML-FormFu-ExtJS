@@ -7,8 +7,10 @@ use Carp qw/ croak carp /;
 use utf8;
 use JavaScript::Dumper;
 use Tie::Hash::Indexed;
+use Hash::Merge::Simple qw(merge);
+use Scalar::Util 'blessed';
 use Data::Dumper;
-our $VERSION = '0.05';
+our $VERSION = '0.070';
 $VERSION = eval $VERSION;    # see L<perlmodstyle>
 use HTML::FormFu::Util qw/require_class/;
 
@@ -32,9 +34,14 @@ If you want to generate grid data and data records for ExtJS have a look at L<HT
 
 This module requires ExtJS 2.2 or greater. Most of the elements work with ExtJS 2.0 or greater too.
 
+B<This module is fully compatible with ExtJS 3.0.>
+
 =head1 EXAMPLES
 
-Check out the examples in C<examples/html> (or try L<http://search.cpan.org/src/PERLER/HTML-FormFu-ExtJS-0.01/examples/html>).
+Check out the examples in C<examples/html>
+
+=for html <p> or online at [ <a href="http://search.cpan.org/src/PERLER/HTML-FormFu-ExtJS-0.07/examples/html">Examples</a> ]<p>
+
 
 =head1 METHODS
 
@@ -42,9 +49,15 @@ A HTML::FormFu::ExtJS object inherits all methods of a L<HTML::FormFu> object. T
 
 =head2 render
 
-Returns a full ExtJS form panel. Usually you'll use this like this (L<TT|Template> example):
+Returns a full ExtJS form panel. Usually you'll use it like this (L<TT|Template> example):
 
   var form = [% form.render %];
+
+You can pass custom attributes to this method which are added to the form config.
+
+  var form = [% form.render(renderTo = 'main') %];
+
+This will add a C<renderTo> attribute to the form config.
 
 C<form> is now a JavaScript object of type C<Ext.FormPanel>. You might want to put a handler on the button so they will
 trigger a function when clicked.
@@ -59,6 +72,98 @@ Or you can add the handler directly to your element:
       handler: function() { alert("click") }
 
 
+=head2 grid_data (experimental)
+
+This methods returns data in a format which is expected by ExtJS as perl object. You will want to serialize it with L<JSON> and send it to the client.
+
+  $form->grid_data($data);
+
+C<$data> can be a L<DBIx::Class::ResultSet> object, an arrayref of L<DBIx::Class::Row> objects or a simple perl object which should look like this:
+
+  $data = [{fieldname1 => 'value1', fieldname2 => 'value2'}];
+
+The returned perl object looks something like this:
+
+  {
+          'metaData' => {
+                        'fields' => [
+                                    {
+                                      'name' => 'artistid',
+                                      'type' => 'string'
+                                    },
+                                    {
+                                      'name' => 'name',
+                                      'type' => 'string'
+                                    }
+                                  ],
+                        'totalProperty' => 'results',
+                        'root' => 'rows'
+                      },
+          'rows' => [
+                    {
+                      'artistid' => '1',
+                      'name' => 'Caterwauler McCrae'
+                    },
+                    {
+                      'artistid' => '2',
+                      'name' => 'Random Boy Band'
+                    },
+                    {
+                      'artistid' => '3',
+                      'name' => 'We Are Goth'
+                    }
+                  ],
+          'results' => 3
+        }
+
+The C<metaData> property does some kind of magic on the client side. Read L<http://extjs.com/deploy/dev/docs/?class=Ext.data.JsonReader> for more information.
+
+Sometimes you need to send a different number of results back to the client than there are rows (i.e. paged grid view).
+Therefore you can override every item of the perl object by passing a hashref.
+
+  $form->grid_data($data, {results => 99});
+
+This will set the number of results to 99.
+
+B<Notice:>
+
+This method is considered I<experimental>. This is due to the fact that is pretty slow at the moment because
+of all the de- and inflation and accessing DBIC accessors. Future plans include that this module will be ORM
+independant and accepts Hashrefs only. This implies that you use L<DBIx::Class::ResultClass::HashRefInflator>
+or anything similar if you want to use this method.
+
+
+=over
+
+=item C<grid_data> will call all deflators specified in the form config file. 
+
+=item L<Select|HTML::FormFu::ExtJS::Select> elements will not display the acutal value but the label of the option it refers to.
+
+=back
+
+=cut
+
+
+=head2 record
+
+C<record> returns a JavaScript string which creates a C<Ext.data.Record> object from
+the C<$form> object. This is useful if you want to create C<Ext.data.Record> objects
+dynamically using JavaScript.
+
+You can add more fields by passing them to the method.
+
+  $form->record();
+  # Ext.data.Record.create( [ {'name' => 'artistid', 'type' => 'string'},
+  #                           {'name' => 'name', 'type' => 'string'} ] );
+  
+  $form->record( 'address', {'name' => 'age', type => 'date'} );
+  # Ext.data.Record.create( [ {'name' => 'artistid', 'type' => 'string'},
+  #                           {'name' => 'name', 'type' => 'string'},
+  #                           {'name' => 'age', 'type' => 'date'},
+  #                           'address' ] );
+
+To get the inner arrayref as perl object, call C<< $form->_record() >>.
+
 =cut
 
 sub render {
@@ -68,13 +173,23 @@ sub render {
 
 sub _render {
 	my $self  = shift;
-	my %param = @_;
-	return {
+	use Data::Dumper;
+	my %param;
+	if(ref $_[0] eq "HASH") {
+	    %param = %{$_[0]};
+    } else {
+        %param = @_;
+    }
+	my $return = {
 		$self->action ? ( url => $self->action ) : (),
 		items   => $self->_render_items,
 		buttons => $self->_render_buttons,
+		baseParams => {'x-requested-by' => 'ExtJS'},
 		%param
 	};
+	my %attrs = $self->_get_attributes($self);
+	return { %$return, %attrs };
+    
 }
 
 =head2 render_items
@@ -265,18 +380,18 @@ back to the user if you want ExtJS to mark the invalid fields or to report a suc
 If the submission was successful the response contains a C<data> property which contains
 all submitted values.
 
-Examples:
+Examples (JSON encoded):
 
-  { "success" => 0,
-    "errors"  => [
-      { "msg" => "This field is required",
-        "id"  => "field" }
+  { "success" : false,
+    "errors"  : [
+      { "msg" : "This field is required",
+        "id"  : "field" }
     ]
   }
 
 
-  { "success" => 1,
-    "data"    => { field: "value" }
+  { "success" : true,
+    "data"    : { field : "value" }
   }
 
 =cut
@@ -285,13 +400,13 @@ Examples:
 
 sub validation_response {
 	my $form = shift;
+	$form->model('HashRef')->flatten(0);
+	$form->model('HashRef')->options(1);
+	$form->set_options(shift);
 	if ( $form->submitted_and_valid ) {
 		my $return = { success => 1 };
-		my @columns = @{ $form->ext_columns };
-		for (@columns) {
-			next unless ( $_->{name} );
-			$return->{data}->{ $_->{name} } = $form->param( $_->{name} );
-		}
+		$form->default_values($form->params);
+		$return->{data} = $form->model('HashRef')->create;
 		return $return;
 	} elsif ( $form->has_errors ) {
 		my $return;
@@ -306,7 +421,260 @@ sub validation_response {
 	}
 	return {};
 }
+
+sub set_options {
+	my $self = shift;
+	my $options = shift;
+	while(my($k,$v) = each %{$options}) {
+		$self->model('HashRef')->$k($v);
+	}
+}
+
+sub grid_data {
+    my $self   = shift;
+	my $data = shift;
+	$self->model('HashRef')->flatten(0);
+	$self->model('HashRef')->options(1);
+	my $param  = shift;
+	$self->set_options(shift);
+    my $rows   = $self->ext_grid_data($data);
+    
+    my $return = {
+        results  => scalar @{$rows},
+        rows     => $rows,
+        metaData => {
+            totalProperty => 'results',
+            root          => 'rows',
+            fields        => $self->_record
+        }
+    };
+    return merge $return, $param;
+}
+
+sub form_data {
+	my $self = shift;
+	my $data = shift;
+	$self->model('HashRef')->flatten(0);
+	$self->model('HashRef')->options(0);
+	$self->set_options(shift);
+	return {success => \0} unless($data);
+	$self->model->default_values($data);
+	return {success => \1, data => $self->model('HashRef')->create};
+}
+
+sub ext_grid_data {
+	my $self = shift;
+	my $data = shift;
+	
+	my @return;
+		
+	
+	foreach my $datum ( @{$data} ) {
+	    $self->model('HashRef')->default_values({});
+		$self->model->default_values($datum);
+		push(@return, $self->model('HashRef')->create);
+	}
+	
+	return \@return;
+	
+}
+
+=head2 column_model
+
+A column model is required to render a grid. It contains all columns which should be rendered inside the grid.
+Those can be hidden or visible. A hidden form element will also result in a hidden column.
+
+A field which has options (like L<HTML::FormFu::Element::Select>) will create two columns.
+
+Example:
+
+  ---
+    default_model: HashRef
+    elements:
+        - type: Radiogroup
+          label: Sex
+          name: sex
+          options:
+              - [0, 'male']
+              - [1, 'female']
+
+This will create the following columns:
+
+        {
+          'dataIndex' : 'sexValue',
+          'hidden'    : true,
+          'id'        : 'sex-value',
+          'header'    : 'Sex'
+        },
+        {
+          'dataIndex' : 'sex',
+          'id'        : 'sex',
+          'header'    : 'Sex'
+        }
+
+The first column is hidden and contains the value of the select box (e. g. C<0> or C<1>). The
+second column contains the label of the value (e. g. C<male> or C<female>) and is visible.
+
+This way you can access both the value and the label of such a field. Notice the values of
+C<dataIndex> and <id> on those columns. Those correspond with the output of L</grid_data>.
+
+=cut
+
+sub column_model {
+	return "new Ext.grid.ColumnModel(" . js_dumper ( shift->_column_model(@_) ) . ");";
+}
+
+sub _column_model {
+    my $form = shift;
+    my @add  = @_;
+    my $data;
+    for my $element ( @{ $form->ext_columns() } ) {
+        my $class = "HTML::FormFu::ExtJS::Element::" . $element->type;
+        require_class($class);
+        push( @{$data}, $class->column_model($element) ) if ( $class->can("record") );
+    }
+
+    for (@add) {
+        push( @{$data}, $_ );
+    }
+    return $data;
+}
+
+sub record {
+    return "Ext.data.Record.create(" . js_dumper( shift->_record(@_) ) . ");";
+}
+
+sub _record {
+    my $form = shift;
+    my @add  = @_;
+    my $data;
+    for my $element ( @{ $form->ext_columns() } ) {
+        my $class = "HTML::FormFu::ExtJS::Element::" . $element->type;
+        require_class($class);
+        push( @{$data}, $class->record($element) ) if ( $class->can("record") );
+    }
+
+    for (@add) {
+        push( @{$data}, $_ );
+    }
+    return $data;
+}
+
+# sub ext_grid_data {
+#     my $self = shift;
+#     my $data = shift;
+#     if ( blessed $data && $data->isa("DBIx::Class::ResultSet") ) {
+#         my @data = $data->all;
+#         $data = \@data;
+#     }
+#     my @return;
+#     my @all_elements = @{ $self->get_all_elements() };
+#     my ( %element_cache, %deflator_cache, %options_cache );
+#     foreach my $datum ( @{$data} ) {
+#         my $obj;
+#         foreach my $column (@all_elements) {
+#             next if ( $column->type =~ /submit/i );
+#             my $name    = $column->name;
+# 			next unless($name);
+#             my $element = $element_cache{$name}
+#               || $self->get_all_element($name);
+#             $element_cache{$name} ||= $element;
+#             next unless ($element);
+#             $obj->{$name} = blessed $datum && $datum->can($name) ? $datum->$name : $datum->{$name};
+# 			my $deflators = $deflator_cache{$name}
+#               || $element->get_deflators;
+#             $deflator_cache{$name} ||= $deflators;
+# 
+#             foreach my $deflator ( @{$deflators} ) {
+# 
+#                 $obj->{$name} = $deflator->deflator( $obj->{$name} );
+#             }
+# 
+# 			if(blessed $datum && $datum->can($name) && blessed $datum->$name && $datum->$name->can('count')) {
+# 				$obj->{$name} = $datum->$name->count;
+# 				next;
+# 			}
+# 
+#             my $can_options = $options_cache{$name}
+#               || $element->can("_options");
+#             $options_cache{$name} ||= $element->can("_options");
+#             if ($can_options) {
+#                 my @options = @{ $element->_options };
+#                 my @option = grep { $_->{value} eq $obj->{$name} } @options;
+# 				unless(@option) {
+# 					@options = map { @{$_->{group} || []} } @options;
+# 					@option = grep { $_->{value} eq $obj->{$name} } @options ;
+# 				}
+#                 $obj->{$name} = join(", ", map { $_->{label} } @option);
+#             }
+# 
+# 			if($column->type eq "Checkbox") {
+# 				$obj->{$name} = \1 if($obj->{$name});
+# 			}
+#         }
+#         push( @return, $obj );
+#     }
+#     return \@return;
+# }
+
 1;
+
+=head1 EXAMPLES
+
+These examples imply that you use L<Catalyst> as web framework and L<Template Toolkit|Template> as the templating engine.
+
+=head2 simple form submission and validation
+
+Create a config file for the form (form.yml):
+
+  ---
+  action: /contacts/create
+  
+  elements:
+
+  - type: Text
+    name: name
+    label: Name
+    constraints:
+      - Required
+
+  - type: Text
+    name: address
+    label: Address
+    constraints:
+      - Required
+
+  - type: Button
+    name: submit
+    default: Submit
+    attrs:
+      handler: submitForm
+
+In the last line there is a handler specified which is called when you press the submit button.
+This handler needs to be implemented using JavaScript.
+
+Usually you have a JavaScript file which contains all the code you need for your page. To render
+the form you need to put the form definition in this file. Pass the form object to the stash
+so that you can access it from the template.
+
+  sub js : Local {
+      my ($self, $c) = @_;
+      my $form = new HTML::FormFu::ExtJS;
+      $form->load_config_file('root/forms/form.yml');
+      $c->stash->{form} = $form;
+      $c->stash->{template} = 'javascript.tt2';
+  }
+
+javascript.tt2:
+
+  var submitForm = function() {
+    form.getForm().submit({
+	  success: function(rst, req) {
+        // submission was successful and valid
+    }
+  }
+  var form = [% form.render %];
+  
 
 =head1 CAVEATS
 
@@ -368,7 +736,7 @@ L<HTML::FormFu>, L<JavaScript::Dumper>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008 Moritz Onken, all rights reserved.
+Copyright 2008-2009 Moritz Onken, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

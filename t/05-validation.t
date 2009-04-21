@@ -1,4 +1,4 @@
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 use HTML::FormFu::ExtJS;
 use strict;
@@ -16,3 +16,5 @@ $form->process({test2 => 1});
 
 is($form->submitted_and_valid, 1);
 is($form->validation_response->{success}, 1, "valid");
+
+is($form->validation_response->{data}->{test2}, 1, "data avaiable");

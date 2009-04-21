@@ -52,4 +52,28 @@ sub _items {
 	return $data;
 }
 
+sub column_model {
+	my $class = shift;
+	my $self = shift;
+	my $super = $class->SUPER::column_model($self);
+	my $name = $self->nested_name;
+	
+	return ({%{$super}, id => $class->_css_case($name)."-value", dataIndex => $class->_camel_case($name).'Value', hidden => \1 },
+			{%{$super}, id => $class->_css_case($name), dataIndex => $class->_camel_case($name) });
+	
+}
+
+sub record {
+	my $class = shift;
+	my $self = shift;
+	my $super = $class->SUPER::record($self);
+	my $name = $self->nested_name;
+	return ({%{$super}, name => $class->_camel_case($name)."Value", mapping => $self->nested_name.'.value' },
+			{%{$super}, name => $class->_camel_case($name), mapping => $self->nested_name.'.label' });
+	
+}
+
+
+
+
 1;
