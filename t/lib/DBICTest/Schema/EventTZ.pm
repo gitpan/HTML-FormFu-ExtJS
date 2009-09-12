@@ -1,4 +1,6 @@
 package DBICTest::Schema::EventTZ;
+our $VERSION = '0.071';
+
 
 use strict;
 use warnings;

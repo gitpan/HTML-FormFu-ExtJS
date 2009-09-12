@@ -1,40 +1,409 @@
-HTML-FormFu-ExtJS version 0.01
-==============================
+NAME
+    HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+VERSION
+    version 0.071
 
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+DESCRIPTION
+    This module allows you to render ExtJS forms without changing your
+    HTML::FormFu config file.
 
-INSTALLATION
+      use HTML::FormFu::ExtJS;
+      my $form = new HTML::FormFu::ExtJS;
+      $form->load_config_file('forms/config.yml');
 
-To install this module type the following:
+      print $form->render;
 
-   perl Makefile.PL
-   make
-   make test
-   make install
+    HTML::FormFu::ExtJS subclasses HTML::FormFu therefore you can access all
+    of its methods via $form.
 
-DEPENDENCIES
+    If you want to generate grid data and data records for ExtJS have a look
+    at HTML::FormFu::ExtJS::Grid.
 
-This module requires these other modules and libraries:
+    This module requires ExtJS 2.2 or greater. Most of the elements work
+    with ExtJS 2.0 or greater too.
 
-  Test::More
+    This module is fully compatible with ExtJS 3.0.
 
-COPYRIGHT AND LICENCE
+EXAMPLES
+    Check out the examples in "examples/html"
 
-Put the correct copyright and licence information here.
+METHODS
+    A HTML::FormFu::ExtJS object inherits all methods of a HTML::FormFu
+    object. There are some additional methods avaiable:
 
-Copyright (C) 2008 by Moritz Onken
+  render
+    Returns a full ExtJS form panel. Usually you'll use it like this (TT
+    example):
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.8 or,
-at your option, any later version of Perl 5 you may have available.
+      var form = [% form.render %];
 
+    You can pass custom attributes to this method which are added to the
+    form config.
+
+      var form = [% form.render(renderTo = 'main') %];
+
+    This will add a "renderTo" attribute to the form config.
+
+    "form" is now a JavaScript object of type "Ext.FormPanel". You might
+    want to put a handler on the button so they will trigger a function when
+    clicked.
+
+      Ext.getCmp("id-of-your-button").setHandler(function() { alert('clicked') } );
+
+    Or you can add the handler directly to your element:
+
+      - type: Button
+        value: Handler
+        attrs:
+          handler: function() { alert("click") }
+
+  grid_data (experimental)
+    This methods returns data in a format which is expected by ExtJS as perl
+    object. You will want to serialize it with JSON and send it to the
+    client.
+
+      $form->grid_data($data);
+
+    $data can be a DBIx::Class::ResultSet object, an arrayref of
+    DBIx::Class::Row objects or a simple perl object which should look like
+    this:
+
+      $data = [{fieldname1 => 'value1', fieldname2 => 'value2'}];
+
+    The returned perl object looks something like this:
+
+      {
+              'metaData' => {
+                            'fields' => [
+                                        {
+                                          'name' => 'artistid',
+                                          'type' => 'string'
+                                        },
+                                        {
+                                          'name' => 'name',
+                                          'type' => 'string'
+                                        }
+                                      ],
+                            'totalProperty' => 'results',
+                            'root' => 'rows'
+                          },
+              'rows' => [
+                        {
+                          'artistid' => '1',
+                          'name' => 'Caterwauler McCrae'
+                        },
+                        {
+                          'artistid' => '2',
+                          'name' => 'Random Boy Band'
+                        },
+                        {
+                          'artistid' => '3',
+                          'name' => 'We Are Goth'
+                        }
+                      ],
+              'results' => 3
+            }
+
+    The "metaData" property does some kind of magic on the client side. Read
+    <http://extjs.com/deploy/dev/docs/?class=Ext.data.JsonReader> for more
+    information.
+
+    Sometimes you need to send a different number of results back to the
+    client than there are rows (i.e. paged grid view). Therefore you can
+    override every item of the perl object by passing a hashref.
+
+      $form->grid_data($data, {results => 99});
+
+    This will set the number of results to 99.
+
+    Notice:
+
+    This method is considered *experimental*. This is due to the fact that
+    is pretty slow at the moment because of all the de- and inflation and
+    accessing DBIC accessors. Future plans include that this module will be
+    ORM independant and accepts Hashrefs only. This implies that you use
+    DBIx::Class::ResultClass::HashRefInflator or anything similar if you
+    want to use this method.
+
+    "grid_data" will call all deflators specified in the form config file.
+    Select elements will not display the acutal value but the label of the
+    option it refers to.
+
+  record
+    "record" returns a JavaScript string which creates a "Ext.data.Record"
+    object from the $form object. This is useful if you want to create
+    "Ext.data.Record" objects dynamically using JavaScript.
+
+    You can add more fields by passing them to the method.
+
+      $form->record();
+      # Ext.data.Record.create( [ {'name' => 'artistid', 'type' => 'string'},
+      #                           {'name' => 'name', 'type' => 'string'} ] );
+  
+      $form->record( 'address', {'name' => 'age', type => 'date'} );
+      # Ext.data.Record.create( [ {'name' => 'artistid', 'type' => 'string'},
+      #                           {'name' => 'name', 'type' => 'string'},
+      #                           {'name' => 'age', 'type' => 'date'},
+      #                           'address' ] );
+
+    To get the inner arrayref as perl object, call "$form->_record()".
+
+  render_items
+    This method returns all form elements in the JavaScript Object Notation
+    (JSON). You can put this string right into the "items" attribute of your
+    ExtJS form panel.
+
+    Fields with the "omit_rendering" attribute set to a true value are not
+    rendered, they are ignored. This feature is usefull if you have fields
+    that are autogenerated on the client side.
+
+  _render_items
+    Acts like "render_items" but returns a perl object instead.
+
+  _render_item
+    Renders a single element.
+
+  render_buttons
+    "render_buttons" returns all buttons specified in $form as a JSON
+    string. Put it right into the "buttons" attribute of your ExtJS form
+    panel.
+
+  _render_buttons
+    Acts like "render_buttons" but returns a perl object instead.
+
+  validation_response
+    Returns the validation response ExtJS expects as a perl Object. If the
+    submitted values have errors the error strings are formatted returned as
+    well. Send this object as JSON string back to the user if you want ExtJS
+    to mark the invalid fields or to report a success.
+
+    If the submission was successful the response contains a "data" property
+    which contains all submitted values.
+
+    Examples (JSON encoded):
+
+      { "success" : false,
+        "errors"  : [
+          { "msg" : "This field is required",
+            "id"  : "field" }
+        ]
+      }
+
+
+      { "success" : true,
+        "data"    : { field : "value" }
+      }
+
+  column_model
+    A column model is required to render a grid. It contains all columns
+    which should be rendered inside the grid. Those can be hidden or
+    visible. A hidden form element will also result in a hidden column.
+
+    A field which has options (like HTML::FormFu::Element::Select) will
+    create two columns.
+
+    Example:
+
+      ---
+        default_model: HashRef
+        elements:
+            - type: Radiogroup
+              label: Sex
+              name: sex
+              options:
+                  - [0, 'male']
+                  - [1, 'female']
+
+    This will create the following columns:
+
+            {
+              'dataIndex' : 'sexValue',
+              'hidden'    : true,
+              'id'        : 'sex-value',
+              'header'    : 'Sex'
+            },
+            {
+              'dataIndex' : 'sex',
+              'id'        : 'sex',
+              'header'    : 'Sex'
+            }
+
+    The first column is hidden and contains the value of the select box (e.
+    g. 0 or 1). The second column contains the label of the value (e. g.
+    "male" or "female") and is visible.
+
+    This way you can access both the value and the label of such a field.
+    Notice the values of "dataIndex" and "id" on those columns. Those
+    correspond with the output of "grid_data".
+
+EXAMPLES
+    These examples imply that you use Catalyst as web framework and Template
+    Toolkit as the templating engine.
+
+  simple form submission and validation
+    Create a config file for the form (form.yml):
+
+      ---
+      action: /contacts/create
+  
+      elements:
+
+      - type: Text
+        name: name
+        label: Name
+        constraints:
+          - Required
+
+      - type: Text
+        name: address
+        label: Address
+        constraints:
+          - Required
+
+      - type: Button
+        name: submit
+        default: Submit
+        attrs:
+          handler: submitForm
+
+    In the last line there is a handler specified which is called when you
+    press the submit button. This handler needs to be implemented using
+    JavaScript.
+
+    Usually you have a JavaScript file which contains all the code you need
+    for your page. To render the form you need to put the form definition in
+    this file. Pass the form object to the stash so that you can access it
+    from the template.
+
+      sub js : Local {
+          my ($self, $c) = @_;
+          my $form = new HTML::FormFu::ExtJS;
+          $form->load_config_file('root/forms/form.yml');
+          $c->stash->{form} = $form;
+          $c->stash->{template} = 'javascript.tt2';
+      }
+  
+      sub create : Path('/contacts/create') {
+          my ($self, $c) = @_;
+          my $form = new HTML::FormFu::ExtJS;
+          $form->load_config_file('root/forms/form.yml');
+          $form->process($c->req->params);
+          if($form->submitted_and_valid) {
+              # insert into database
+          }
+      
+          $c->stash($form->validation_response);
+          # Make sure a JSON view is called so the stash is serialized
+      }
+
+    javascript.tt2:
+
+      var submitForm = function() {
+        form.getForm().submit({
+              success: function(rst, req) {
+            // submission was successful and valid
+            // you might want to close the form or something
+          },
+          failure: function() {
+            // form validation returned errors
+            // invalid fields are masked automatically  
+          }
+      }
+      var form = [% form.render %];
+
+FAQ
+  How do I do server side validation?
+    See "simple form submission and validation" and "validation_response".
+
+  And how do I add client side validation?
+    The FormFu constraints are not yet translated to ExtJS constraints. You
+    can however add them manually in your form config:
+
+      - type: Text
+        name: text
+        constraint:
+          - Required
+        attrs:
+          allowBlank: 0
+
+  How do I create custom FormFu::ExtJS elements?
+    If you wish to write your own ExtJS element you have to do the
+    following:
+
+    First create an element which is a HTML::FormFu::Element.
+
+      package HTML::FormFu::Element::MyApp::MyField;
+      use base qw(HTML::FormFu::Element::Text);
+      1;
+
+    This is a very basic example for a field which is a text field. The
+    ExtJS logic belongs to a different module:
+
+      package HTML::FormFu::ExtJS::Element::MyApp::MyField;
+      use base qw(HTML::FormFu::ExtJS::Element::Text);
+  
+      sub render {
+          # you probably want to overwrite this!
+      }
+  
+      1;
+
+    Configure the form as follows:
+
+      $form->populate( { elements => { type => 'MyApp::MyField', ... } } );
+
+    If you don't want to put the element in the HTML::FormFu namespace then
+    you have to prepend the class name with a "+". In this case the name of
+    the ExtJS class changes as well:
+
+      $form->populate( { elements => { type => '+MyApp::Element::MyField', ... } } );
+
+    This requires the classes "MyApp::Element::MyField" and
+    "MyApp::ExtJS::Element::MyField". The class must be in an "Element"
+    namespace.
+
+CAVEATS
+  Multi
+    The Multi element is rendered using the ExtJS column layout. It seems
+    like this layout doesn't allow a label next to it. This module adds a
+    new column as first element which has a field label specified and a
+    hidden text box. I couldn't find a setup where this hack failed. But
+    there might be some cases where it does.
+
+  Select
+    Optgroups are partially supported. They render as a normal element of
+    the select box and are therefore selectable.
+
+  Buttons
+    Buttons cannot be placed in-line as ExtJS expects them to be in a
+    different attribute. A button next to a text box is therefore (not yet)
+    possible. Buttons are always rendered at the bottom of a form panel.
+
+  Comments
+    There is no support for comments yet. A work-around is to create a Multi
+    element, add the element you want to comment in the first column and the
+    comment as a Src element in the second column.
+
+  Block
+    Each element in a "Block" element is rendered normally. The "tag" config
+    option has no influence. If the "Block" element contains a "content" it
+    is rendered like a Src element.
+
+SUBVERSION REPOSITORY
+    Latest development version is avaiable from
+    <http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu-ExtJS/>.
+
+TODO
+    Write a Catalyst example application with validation, data grids and
+    DBIC (sqlite).
+
+SEE ALSO
+    HTML::FormFu, JavaScript::Dumper
+
+COPYRIGHT & LICENSE
+    Copyright 2008-2009 Moritz Onken, all rights reserved.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 

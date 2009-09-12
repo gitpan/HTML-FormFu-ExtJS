@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::ContentButton;
+our $VERSION = '0.071';
+
 
 use base "HTML::FormFu::ExtJS::Element::Button"; 
 
@@ -20,6 +22,10 @@ sub render {
 =head1 NAME
 
 HTML::FormFu::ExtJS::Element::Button - Button
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 

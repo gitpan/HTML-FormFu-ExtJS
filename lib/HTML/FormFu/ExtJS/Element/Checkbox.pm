@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::Checkbox;
+our $VERSION = '0.071';
+
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
 use strict;
@@ -10,10 +12,11 @@ sub render {
 	my $self  = shift;
 	my $super = $class->SUPER::render($self);
 	return {
-		%{$super},
 		xtype     => "checkbox",
 		hideLabel => 1,
 		boxLabel  => $self->label,
+		checked => $self->default ? \1 : \0,
+		%{$super},
 		$self->default ? ( inputValue => $self->default ) : ()
 	};
 }
@@ -22,6 +25,10 @@ sub render {
 =head1 NAME
 
 HTML::FormFu::ExtJS::Element::Checkbox - Checkbox element
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 

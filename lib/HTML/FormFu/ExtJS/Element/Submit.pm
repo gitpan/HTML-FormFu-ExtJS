@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::Submit;
+our $VERSION = '0.071';
+
 
 use base "HTML::FormFu::ExtJS::Element::Button"; 
 
@@ -20,6 +22,10 @@ sub render {
 =head1 NAME
 
 HTML::FormFu::ExtJS::Element::Submit - Submit button
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 

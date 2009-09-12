@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::Src;
+our $VERSION = '0.071';
+
 
 
 use strict;

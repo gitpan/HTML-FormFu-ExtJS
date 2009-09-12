@@ -1,4 +1,6 @@
 package HTML::FormFu::Element::ExtJS::Panel;
+our $VERSION = '0.071';
+
 
 use strict;
 use base 'HTML::FormFu::Element::Block';
@@ -53,7 +55,11 @@ __END__
 
 =head1 NAME
 
-HTML::FormFu::Element::Panel - FormFu class for ExtJS panels
+HTML::FormFu::Element::ExtJS::Panel - FormFu class for ExtJS panels
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 

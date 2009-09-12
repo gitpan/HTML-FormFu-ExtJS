@@ -18,7 +18,8 @@ is_deeply( $form->_column_model, [
             'dataIndex' => 'created',
             'id' => 'created',
             'renderer' => \'Ext.util.Format.dateRenderer("d.m.Y")',
-            'header' => 'Created'
+            'header' => 'Created',
+            'dateFormat' => 'd.m.Y'
           },
           {
             'dataIndex' => 'sexValue',

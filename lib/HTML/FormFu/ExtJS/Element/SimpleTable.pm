@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::SimpleTable;
+our $VERSION = '0.071';
+
 
 use strict;
 use warnings;
@@ -49,6 +51,10 @@ sub render {
 =head1 NAME
 
 HTML::FormFu::ExtJS::Element::SimpleTable - Simple table layout
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 

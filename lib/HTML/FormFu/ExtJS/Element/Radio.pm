@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::Radio;
+our $VERSION = '0.071';
+
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
 use strict;
@@ -22,6 +24,10 @@ sub render {
 =head1 NAME
 
 HTML::FormFu::ExtJS::Element::Radio - Radio element
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 

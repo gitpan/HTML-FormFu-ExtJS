@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::Textarea;
+our $VERSION = '0.071';
+
 
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
@@ -23,6 +25,10 @@ sub render {
 =head1 NAME
 
 HTML::FormFu::ExtJS::Element::Textarea - Textarea element
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 

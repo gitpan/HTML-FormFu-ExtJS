@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::Checkboxgroup;
+our $VERSION = '0.071';
+
 
 use base "HTML::FormFu::ExtJS::Element::_Group";
 

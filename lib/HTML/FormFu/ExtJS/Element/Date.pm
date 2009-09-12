@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::Date;
+our $VERSION = '0.071';
+
 
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
@@ -23,15 +25,15 @@ sub render {
 sub record {
 	my $class = shift;
 	my $self = shift;
-	my $super = $class->SUPER::record($self);
+	my $super = $class->SUPER::record($self, @_);
 	return {%{$super}, type => "date", dateFormat => 'Y-m-d'}
 }
 
 sub column_model {
 	my $class = shift;
 	my $self = shift;
-	my $super = $class->SUPER::column_model($self);
-	my $format = $self->attrs->{format_date} || $self->attrs_xml->{format_date} || 'Y-m-d';
+	my $super = $class->SUPER::column_model($self, @_);
+	my $format = $super->{dateFormat} || 'Y-m-d';
 	return {%{$super}, renderer => \('Ext.util.Format.dateRenderer("'.$format.'")') }
 }
 
@@ -41,6 +43,10 @@ sub column_model {
 =head1 NAME
 
 HTML::FormFu::ExtJS::Element::Date - Date element
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 
@@ -54,7 +60,7 @@ to a more readable version depending on your locale.
 
 =head2 column_model
 
-To change the format of the date object specify C<< $element->attrs->{format_data} >>.
+To change the format of the date object specify C<< $element->attrs->{dateFormat} >>.
 The date parsing and format syntax is a subset of PHP's date() function.
 See L<http://extjs.com/deploy/dev/docs/?class=Date> for details.
 It defaults to C<Y-m-d> (which is the same as Perl's C<%Y-%m-%d>).

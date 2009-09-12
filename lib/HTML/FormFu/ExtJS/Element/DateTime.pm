@@ -1,5 +1,10 @@
 package HTML::FormFu::ExtJS::Element::DateTime;
-use base "HTML::FormFu::ExtJS::Element::Multi";
+our $VERSION = '0.071';
+
+use base "HTML::FormFu::ExtJS::Element::_Field";
+
+use HTML::FormFu::ExtJS::Element::Select;
+use HTML::FormFu::ExtJS::Element::Date;
 
 use strict;
 use warnings;
@@ -10,32 +15,44 @@ sub render {
 	my $class = shift;
 	my $self  = shift;
 	$self->process;
+	$self->deflator({ type => 'Strftime', strftime => '%FT%T%Z'});
+	$self->strftime('%FT%T%Z');
 	my @value;
 	for(1..3) {
 		push(@value, sprintf("%02d", $self->get_element->default));
 		$self->remove_element( $self->get_element );
 	}
-	for(0..1) {
-		$self->get_elements->[$_]->attrs({width => 50});
-	}
-	my $date = $self->form->element({type => "Date", value => join('-', @value)});
-	$self->insert_before($date, $self->get_element);
-	my $super = $class->SUPER::render($self);
-	return $super;
+	my $date = $self->form->element({type => "Date", value => join('-', @value) });
+	my $data = [HTML::FormFu::ExtJS::Element::Date->render($date)];
+	for(1..2) {
+	    my $element = $self->get_element;
+    	$element->attrs->{width} = 50;
+    	push(@$data, HTML::FormFu::ExtJS::Element::Select->render( $element ));
+    	$self->remove_element( $element );
+    }
+    
+    $self->_elements([]);
+    
+    unshift(@$data, { fieldLabel => $self->label, xtype => "textfield", hidden => \1})
+        if($self->label);
+    $data = [map { { layout => 'form', items => $_ } } @$data];
+    
+	
+    return { layout => "form", items => [ { layout => "column", items => $data } ] };
 }
 
 sub record {
 	my $class = shift;
 	my $self = shift;
-	my $super = $class->SUPER::record($self);
+	my $super = $class->SUPER::record($self, @_);
 	return {%{$super}, type => "date", dateFormat => 'Y-m-d G:i'}
 }
 
 sub column_model {
 	my $class = shift;
 	my $self = shift;
-	my $super = $class->SUPER::column_model($self);
-	my $format = $self->attrs->{format_date} || $self->attrs_xml->{format_date} || 'Y-m-d G:i';
+	my $super = $class->SUPER::column_model($self, @_);
+	my $format = $self->attrs->{dateFormat} || $self->attrs_xml->{dateFormat} || 'Y-m-d G:i';
 	return {%{$super}, renderer => \('Ext.util.Format.dateRenderer("'.$format.'")') }
 }
 
@@ -47,13 +64,17 @@ __END__
 
 HTML::FormFu::ExtJS::Element::DateTime - DateTime element
 
+=head1 VERSION
+
+version 0.071
+
 =head1 DESCRIPTION
 
 You cannot put this element in a multi element because it is one itself.
 
 =head2 column_model
 
-To change the format of the date object specify C<< $element->attrs->{format_data} >>.
+To change the format of the date object specify C<< $element->attrs->{dateFormat} >>.
 The date parsing and format syntax is a subset of PHP's date() function.
 See L<http://extjs.com/deploy/dev/docs/?class=Date> for details.
 It defaults to C<Y-m-d G:i> (which is the same as Perl's C<%Y-%m-%d %R>).

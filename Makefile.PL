@@ -1,25 +1,26 @@
-use inc::Module::Install 0.75;
 
-name 'HTML-FormFu-ExtJS';
-perl_version '5.008001';
-all_from 'lib/HTML/FormFu/ExtJS.pm';
+use strict;
+use warnings;
 
-# this is the lowest version of Exporter I can identify that exports import()
-# it's bundled with perl 5.83
-# version 5.567 that ships with perl 5.82 is no good
-requires 'Exporter' => '5.57';
+use ExtUtils::MakeMaker;
 
-requires 'HTML::FormFu' => "0.04";
-requires 'Scalar::Util' => 0;
-requires 'Carp' => 0;
-requires 'JavaScript::Dumper' => '0.011';
-requires 'Tie::Hash::Indexed' => 0;
-requires 'Data::Dumper' => 0;
-requires 'Hash::Merge::Simple' => '0.03';
-requires 'Hash::Flatten';
+WriteMakefile(
+  DISTNAME  => 'HTML-FormFu-ExtJS',
+  NAME      => 'HTML::FormFu::ExtJS',
+  AUTHOR    => 'Moritz\ Onken\ \<onken\@netcubed\.de\>',
+  ABSTRACT  => 'Render\ and\ validate\ ExtJS\ forms\ using\ HTML\:\:FormFu',
+  VERSION   => '0.071',
+  EXE_FILES => [ qw() ],
+  (eval { ExtUtils::MakeMaker->VERSION(6.31) } ? (LICENSE => 'perl') : ()),
+  PREREQ_PM    => {
+    "File::Find::Rule" => '0',
+    "Tie::Hash::Indexed" => '0',
+    "JavaScript::Dumper" => '0.011',
+    "Hash::Merge::Simple" => '0.03',
+    "Hash::Flatten" => '0',
+    "HTML::FormFu" => '0.04',
+    "Exporter" => '5.57',
+  },
+  test => {TESTS => 't/ t/column_model/ t/elements/ t/grid_data/dbic/ t/grid_data/hashref/ t/record/ t/render/ t/validation/'}
+);
 
-no_index directory => 'examples';
-
-tests_recursive( 't' );
-
-WriteAll;

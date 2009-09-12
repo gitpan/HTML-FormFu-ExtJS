@@ -1,4 +1,6 @@
 package HTML::FormFu::ExtJS::Element::File;
+our $VERSION = '0.071';
+
 
 use base "HTML::FormFu::ExtJS::Element::Text";
 
@@ -21,6 +23,10 @@ sub render {
 =head1 NAME
 
 HTML::FormFu::ExtJS::Element::File - File upload element
+
+=head1 VERSION
+
+version 0.071
 
 =head1 DESCRIPTION
 
