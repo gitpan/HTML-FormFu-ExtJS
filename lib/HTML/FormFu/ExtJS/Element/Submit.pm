@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Submit;
-our $VERSION = '0.071';
+our $VERSION = '0.072';
 
 
 use base "HTML::FormFu::ExtJS::Element::Button"; 
@@ -25,7 +25,7 @@ HTML::FormFu::ExtJS::Element::Submit - Submit button
 
 =head1 VERSION
 
-version 0.071
+version 0.072
 
 =head1 DESCRIPTION
 

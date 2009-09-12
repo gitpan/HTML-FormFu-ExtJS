@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Radiogroup;
-our $VERSION = '0.071';
+our $VERSION = '0.072';
 
 
 use base "HTML::FormFu::ExtJS::Element::_Group";

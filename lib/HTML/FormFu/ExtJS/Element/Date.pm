@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Date;
-our $VERSION = '0.071';
+our $VERSION = '0.072';
 
 
 use base "HTML::FormFu::ExtJS::Element::_Field";
@@ -46,7 +46,7 @@ HTML::FormFu::ExtJS::Element::Date - Date element
 
 =head1 VERSION
 
-version 0.071
+version 0.072
 
 =head1 DESCRIPTION
 

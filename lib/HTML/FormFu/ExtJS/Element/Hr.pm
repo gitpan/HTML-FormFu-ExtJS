@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Hr;
-our $VERSION = '0.071';
+our $VERSION = '0.072';
 
 
 use strict;
@@ -22,7 +22,7 @@ HTML::FormFu::ExtJS::Element::Hr - Horizontal line
 
 =head1 VERSION
 
-version 0.071
+version 0.072
 
 =head1 DESCRIPTION
 

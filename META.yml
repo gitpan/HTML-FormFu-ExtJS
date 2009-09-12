@@ -18,4 +18,4 @@ requires:
   Tie::Hash::Indexed: 0
 resources:
   repository: http://github.com/monken/html-formfu-extjs/tree
-version: 0.071
+version: 0.072

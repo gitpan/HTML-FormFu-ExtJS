@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Block;
-our $VERSION = '0.071';
+our $VERSION = '0.072';
 
 
 

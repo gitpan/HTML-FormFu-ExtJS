@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::DateTime;
-our $VERSION = '0.071';
+our $VERSION = '0.072';
 
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
@@ -45,14 +45,14 @@ sub record {
 	my $class = shift;
 	my $self = shift;
 	my $super = $class->SUPER::record($self, @_);
-	return {%{$super}, type => "date", dateFormat => 'Y-m-d G:i'}
+	return {%{$super}, type => "date", dateFormat => 'c'}
 }
 
 sub column_model {
 	my $class = shift;
 	my $self = shift;
 	my $super = $class->SUPER::column_model($self, @_);
-	my $format = $self->attrs->{dateFormat} || $self->attrs_xml->{dateFormat} || 'Y-m-d G:i';
+	my $format = $self->attrs->{dateFormat} || $self->attrs_xml->{dateFormat} || 'c';
 	return {%{$super}, renderer => \('Ext.util.Format.dateRenderer("'.$format.'")') }
 }
 
@@ -66,7 +66,7 @@ HTML::FormFu::ExtJS::Element::DateTime - DateTime element
 
 =head1 VERSION
 
-version 0.071
+version 0.072
 
 =head1 DESCRIPTION
 

@@ -2,7 +2,7 @@ NAME
     HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
 
 VERSION
-    version 0.071
+    version 0.072
 
 DESCRIPTION
     This module allows you to render ExtJS forms without changing your
@@ -110,7 +110,7 @@ METHODS
     information.
 
     Sometimes you need to send a different number of results back to the
-    client than there are rows (i.e. paged grid view). Therefore you can
+    client than there are rows (e. g. paged grid view). Therefore you can
     override every item of the perl object by passing a hashref.
 
       $form->grid_data($data, {results => 99});
@@ -389,10 +389,6 @@ CAVEATS
     Each element in a "Block" element is rendered normally. The "tag" config
     option has no influence. If the "Block" element contains a "content" it
     is rendered like a Src element.
-
-SUBVERSION REPOSITORY
-    Latest development version is avaiable from
-    <http://html-formfu.googlecode.com/svn/trunk/HTML-FormFu-ExtJS/>.
 
 TODO
     Write a Catalyst example application with validation, data grids and

@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Password;
-our $VERSION = '0.071';
+our $VERSION = '0.072';
 
 
 use base "HTML::FormFu::ExtJS::Element::Text";
@@ -25,7 +25,7 @@ HTML::FormFu::ExtJS::Element::Password - Password element
 
 =head1 VERSION
 
-version 0.071
+version 0.072
 
 =head1 DESCRIPTION
 
