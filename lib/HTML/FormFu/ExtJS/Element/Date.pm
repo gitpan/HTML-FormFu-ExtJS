@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Date;
-our $VERSION = '0.072';
+our $VERSION = '0.073';
 
 
 use base "HTML::FormFu::ExtJS::Element::_Field";
@@ -15,7 +15,6 @@ sub render {
 	$self->strftime('%Y-%m-%d');
 	$self->default(sprintf("%04s-%02s-%02s", $self->year->{default},$self->month->{default},$self->day->{default}))
 	if($self->year->{default} && $self->month->{default} && $self->day->{default});
-	
 	my $super = $class->SUPER::render($self);
 	return { %{$super}, xtype => "datefield" };
 	
@@ -25,6 +24,7 @@ sub render {
 sub record {
 	my $class = shift;
 	my $self = shift;
+	use Data::Dumper; $Data::Dumper::Indent = 1; warn Dumper $self unless($self->name);
 	my $super = $class->SUPER::record($self, @_);
 	return {%{$super}, type => "date", dateFormat => 'Y-m-d'}
 }
@@ -46,7 +46,7 @@ HTML::FormFu::ExtJS::Element::Date - Date element
 
 =head1 VERSION
 
-version 0.072
+version 0.073
 
 =head1 DESCRIPTION
 

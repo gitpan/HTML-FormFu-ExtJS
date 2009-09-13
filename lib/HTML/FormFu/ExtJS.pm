@@ -10,7 +10,7 @@ use Tie::Hash::Indexed;
 use Hash::Merge::Simple qw(merge);
 use Scalar::Util 'blessed';
 use Data::Dumper;
-our $VERSION = '0.071';
+our $VERSION = '0.073';
 $VERSION = eval $VERSION;    # see L<perlmodstyle>
 
 use HTML::FormFu::ExtJS::Util qw(
@@ -24,7 +24,7 @@ HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
 
 =head1 VERSION
 
-version 0.072
+version 0.073
 
 =head1 DESCRIPTION
 
@@ -399,7 +399,7 @@ sub _ext_columns {
 	my $field = shift;
 	my @return;
 	my @childs =
-	  grep { $_->type() !~ /submit/i && $_->can("name") }
+	  grep { $_->type() !~ /submit/i && $_->can("name") && defined $_->name }
 	  @{ $field->get_all_elements() };
 	return \@childs;
 }

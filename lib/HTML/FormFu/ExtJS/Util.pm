@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Util;
-our $VERSION = '0.072';
+our $VERSION = '0.073';
 
 
 use strict;

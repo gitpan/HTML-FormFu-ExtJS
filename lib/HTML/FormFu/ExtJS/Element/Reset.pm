@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Reset;
-our $VERSION = '0.072';
+our $VERSION = '0.073';
 
 
 use base "HTML::FormFu::ExtJS::Element::Button"; 
@@ -25,7 +25,7 @@ HTML::FormFu::ExtJS::Element::Reset - Reset button
 
 =head1 VERSION
 
-version 0.072
+version 0.073
 
 =head1 DESCRIPTION
 

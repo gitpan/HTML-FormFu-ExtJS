@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::DateTime;
-our $VERSION = '0.072';
+our $VERSION = '0.073';
 
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
@@ -30,8 +30,6 @@ sub render {
     	push(@$data, HTML::FormFu::ExtJS::Element::Select->render( $element ));
     	$self->remove_element( $element );
     }
-    
-    $self->_elements([]);
     
     unshift(@$data, { fieldLabel => $self->label, xtype => "textfield", hidden => \1})
         if($self->label);
@@ -66,7 +64,7 @@ HTML::FormFu::ExtJS::Element::DateTime - DateTime element
 
 =head1 VERSION
 
-version 0.072
+version 0.073
 
 =head1 DESCRIPTION
 

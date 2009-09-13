@@ -9,7 +9,7 @@ WriteMakefile(
   NAME      => 'HTML::FormFu::ExtJS',
   AUTHOR    => 'Moritz\ Onken\ \<onken\@netcubed\.de\>',
   ABSTRACT  => 'Render\ and\ validate\ ExtJS\ forms\ using\ HTML\:\:FormFu',
-  VERSION   => '0.072',
+  VERSION   => '0.073',
   EXE_FILES => [ qw() ],
   (eval { ExtUtils::MakeMaker->VERSION(6.31) } ? (LICENSE => 'perl') : ()),
   PREREQ_PM    => {

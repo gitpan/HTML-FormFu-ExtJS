@@ -1,5 +1,5 @@
 package HTML::FormFu::ExtJS::Element::ComboBox;
-our $VERSION = '0.072';
+our $VERSION = '0.073';
 
 
 use base "HTML::FormFu::ExtJS::Element::Select";
@@ -41,7 +41,7 @@ HTML::FormFu::ExtJS::Element::ComboBox - An editable select box
 
 =head1 VERSION
 
-version 0.072
+version 0.073
 
 =head1 DESCRIPTION
 

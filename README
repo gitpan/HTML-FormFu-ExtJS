@@ -2,7 +2,7 @@ NAME
     HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
 
 VERSION
-    version 0.072
+    version 0.073
 
 DESCRIPTION
     This module allows you to render ExtJS forms without changing your
