@@ -1,4 +1,7 @@
 package HTML::FormFu::ExtJS;
+our $VERSION = '0.074';
+
+
 use base HTML::FormFu;
 use strict;
 use warnings;
@@ -10,8 +13,6 @@ use Tie::Hash::Indexed;
 use Hash::Merge::Simple qw(merge);
 use Scalar::Util 'blessed';
 use Data::Dumper;
-our $VERSION = '0.073';
-$VERSION = eval $VERSION;    # see L<perlmodstyle>
 
 use HTML::FormFu::ExtJS::Util qw(
     ext_class_of
@@ -24,7 +25,7 @@ HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
 
 =head1 VERSION
 
-version 0.073
+version 0.074
 
 =head1 DESCRIPTION
 
@@ -48,7 +49,7 @@ B<This module is fully compatible with ExtJS 3.0.>
 
 Check out the examples in C<examples/html>
 
-=for html <p> or online at [ <a href="http://search.cpan.org/src/PERLER/HTML-FormFu-ExtJS-0.071/examples/html">Examples</a> ]<p>
+=for html <p> or online at [ <a href="http://search.cpan.org/src/PERLER/HTML-FormFu-ExtJS-0.074/examples/html">Examples</a> ]<p>
 
 
 =head1 METHODS
@@ -774,6 +775,9 @@ If you wish to write your own ExtJS element you have to do the following:
 First create an element which is a HTML::FormFu::Element.
 
   package HTML::FormFu::Element::MyApp::MyField;
+our $VERSION = '0.074';
+
+
   use base qw(HTML::FormFu::Element::Text);
   1;
   
@@ -781,6 +785,9 @@ This is a very basic example for a field which is a text field.
 The ExtJS logic belongs to a different module:
 
   package HTML::FormFu::ExtJS::Element::MyApp::MyField;
+our $VERSION = '0.074';
+
+
   use base qw(HTML::FormFu::ExtJS::Element::Text);
   
   sub render {

@@ -1,5 +1,6 @@
 package HTML::FormFu::ExtJS::Element::_Field;
-our $VERSION = '0.073';
+our $VERSION = '0.074';
+
 
 
 use strict;

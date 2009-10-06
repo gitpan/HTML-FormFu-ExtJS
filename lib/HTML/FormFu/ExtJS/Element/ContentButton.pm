@@ -1,5 +1,6 @@
 package HTML::FormFu::ExtJS::Element::ContentButton;
-our $VERSION = '0.073';
+our $VERSION = '0.074';
+
 
 
 use base "HTML::FormFu::ExtJS::Element::Button"; 
@@ -21,11 +22,11 @@ sub render {
 
 =head1 NAME
 
-HTML::FormFu::ExtJS::Element::Button - Button
+HTML::FormFu::ExtJS::Element::ContentButton - Button
 
 =head1 VERSION
 
-version 0.073
+version 0.074
 
 =head1 DESCRIPTION
 
@@ -36,7 +37,7 @@ L<HTML::FormFu::Element::Image>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008 Moritz Onken, all rights reserved.
+Copyright 2009 Moritz Onken, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

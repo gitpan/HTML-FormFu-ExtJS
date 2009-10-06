@@ -1,5 +1,6 @@
 package DBICTest::Schema::Event;
-our $VERSION = '0.073';
+our $VERSION = '0.074';
+
 
 
 use strict;

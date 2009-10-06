@@ -1,5 +1,6 @@
 package HTML::FormFu::ExtJS::Element::Repeatable;
-our $VERSION = '0.073';
+our $VERSION = '0.074';
+
 
 
 

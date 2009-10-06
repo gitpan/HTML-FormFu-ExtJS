@@ -340,6 +340,8 @@ t/grid_data/dbic/basic.t
 t/grid_data/dbic/basic.yml
 t/grid_data/dbic/groups.t
 t/grid_data/dbic/groups.yml
+t/grid_data/dbic/inflator.t
+t/grid_data/dbic/inflator.yml
 t/grid_data/hashref/basic.t
 t/grid_data/hashref/inflator.t
 t/grid_data/hashref/inflator.yml
@@ -358,7 +360,6 @@ t/lib/DBICTest/Schema/CollectionObject.pm
 t/lib/DBICTest/Schema/Dummy.pm
 t/lib/DBICTest/Schema/Employee.pm
 t/lib/DBICTest/Schema/Event.pm
-t/lib/DBICTest/Schema/EventTZ.pm
 t/lib/DBICTest/Schema/FileColumn.pm
 t/lib/DBICTest/Schema/ForceForeign.pm
 t/lib/DBICTest/Schema/FourKeys.pm
