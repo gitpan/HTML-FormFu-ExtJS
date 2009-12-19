@@ -2,7 +2,7 @@ NAME
     HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
 
 VERSION
-    version 0.074
+    version 0.075
 
 DESCRIPTION
     This module allows you to render ExtJS forms without changing your
@@ -334,9 +334,6 @@ FAQ
     First create an element which is a HTML::FormFu::Element.
 
       package HTML::FormFu::Element::MyApp::MyField;
-    our $VERSION = '0.074';
-
-
       use base qw(HTML::FormFu::Element::Text);
       1;
 
@@ -344,9 +341,6 @@ FAQ
     ExtJS logic belongs to a different module:
 
       package HTML::FormFu::ExtJS::Element::MyApp::MyField;
-    our $VERSION = '0.074';
-
-
       use base qw(HTML::FormFu::ExtJS::Element::Text);
   
       sub render {

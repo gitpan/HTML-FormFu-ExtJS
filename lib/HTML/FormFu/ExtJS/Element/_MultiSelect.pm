@@ -1,7 +1,5 @@
 package HTML::FormFu::ExtJS::Element::_MultiSelect;
-our $VERSION = '0.074';
-
-
+our $VERSION = '0.075';
 
 use base qw (HTML::FormFu::ExtJS::Element::Select);
 

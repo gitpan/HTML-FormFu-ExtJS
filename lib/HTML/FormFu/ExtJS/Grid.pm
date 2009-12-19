@@ -1,7 +1,5 @@
 package HTML::FormFu::ExtJS::Grid;
-our $VERSION = '0.074';
-
-
+our $VERSION = '0.075';
 
 use base "HTML::FormFu::ExtJS";
 

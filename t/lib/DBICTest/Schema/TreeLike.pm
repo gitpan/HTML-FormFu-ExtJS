@@ -1,5 +1,6 @@
 package # hide from PAUSE 
     DBICTest::Schema::TreeLike;
+our $VERSION = '0.075';
 
 use base qw/DBIx::Class::Core/;
 

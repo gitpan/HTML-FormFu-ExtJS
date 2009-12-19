@@ -1,5 +1,6 @@
 package 
 DBICTest::Schema::FileColumn;
+our $VERSION = '0.075';
 
 use strict;
 use warnings;

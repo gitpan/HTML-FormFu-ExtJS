@@ -1,7 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Select;
-our $VERSION = '0.074';
-
-
+our $VERSION = '0.075';
 
 use base "HTML::FormFu::ExtJS::Element::_Group";
 
@@ -130,7 +128,7 @@ HTML::FormFu::ExtJS::Element::Select - Select box
 
 =head1 VERSION
 
-version 0.074
+version 0.075
 
 =head1 DESCRIPTION
 

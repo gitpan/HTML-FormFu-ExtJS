@@ -1,5 +1,6 @@
 package # hide from PAUSE 
     DBICTest::Schema::FourKeys_to_TwoKeys;
+our $VERSION = '0.075';
 
 use base 'DBIx::Class::Core';
 

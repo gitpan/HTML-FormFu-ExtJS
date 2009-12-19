@@ -1,7 +1,5 @@
 package HTML::FormFu::Element::ExtJS::Panel;
-our $VERSION = '0.074';
-
-
+our $VERSION = '0.075';
 
 use strict;
 use base 'HTML::FormFu::Element::Block';
@@ -60,7 +58,7 @@ HTML::FormFu::Element::ExtJS::Panel - FormFu class for ExtJS panels
 
 =head1 VERSION
 
-version 0.074
+version 0.075
 
 =head1 DESCRIPTION
 

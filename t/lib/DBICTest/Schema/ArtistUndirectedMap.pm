@@ -1,5 +1,6 @@
 package # hide from PAUSE 
     DBICTest::Schema::ArtistUndirectedMap;
+our $VERSION = '0.075';
 
 use base 'DBIx::Class::Core';
 

@@ -1,5 +1,6 @@
 package # hide from PAUSE 
     DBICTest::Schema::Artist;
+our $VERSION = '0.075';
 
 use base 'DBIx::Class';
 

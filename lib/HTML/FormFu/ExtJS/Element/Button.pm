@@ -1,7 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Button;
-our $VERSION = '0.074';
-
-
+our $VERSION = '0.075';
 use strict;
 use warnings;
 
@@ -27,7 +25,7 @@ HTML::FormFu::ExtJS::Element::Button - Button
 
 =head1 VERSION
 
-version 0.074
+version 0.075
 
 =head1 DESCRIPTION
 

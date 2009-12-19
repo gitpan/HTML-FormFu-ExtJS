@@ -1,7 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Label;
-our $VERSION = '0.074';
-
-
+our $VERSION = '0.075';
 
 use strict;
 use warnings;
@@ -35,7 +33,7 @@ HTML::FormFu::ExtJS::Element::Text - Text element
 
 =head1 VERSION
 
-version 0.074
+version 0.075
 
 =head1 DESCRIPTION
 

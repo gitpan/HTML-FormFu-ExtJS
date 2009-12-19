@@ -1,7 +1,5 @@
 package HTML::FormFu::ExtJS;
-our $VERSION = '0.074';
-
-
+our $VERSION = '0.075';
 use base HTML::FormFu;
 use strict;
 use warnings;
@@ -25,7 +23,7 @@ HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
 
 =head1 VERSION
 
-version 0.074
+version 0.075
 
 =head1 DESCRIPTION
 
@@ -775,9 +773,6 @@ If you wish to write your own ExtJS element you have to do the following:
 First create an element which is a HTML::FormFu::Element.
 
   package HTML::FormFu::Element::MyApp::MyField;
-our $VERSION = '0.074';
-
-
   use base qw(HTML::FormFu::Element::Text);
   1;
   
@@ -785,9 +780,6 @@ This is a very basic example for a field which is a text field.
 The ExtJS logic belongs to a different module:
 
   package HTML::FormFu::ExtJS::Element::MyApp::MyField;
-our $VERSION = '0.074';
-
-
   use base qw(HTML::FormFu::ExtJS::Element::Text);
   
   sub render {

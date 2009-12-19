@@ -1,7 +1,5 @@
 package HTML::FormFu::ExtJS::Element::Multi;
-our $VERSION = '0.074';
-
-
+our $VERSION = '0.075';
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
 use strict;
@@ -47,7 +45,7 @@ HTML::FormFu::ExtJS::Element::Multi - Multi column
 
 =head1 VERSION
 
-version 0.074
+version 0.075
 
 =head1 DESCRIPTION
 
