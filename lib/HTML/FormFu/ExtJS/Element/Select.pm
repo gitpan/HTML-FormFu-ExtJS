@@ -1,5 +1,16 @@
+# 
+# This file is part of HTML-FormFu-ExtJS
+# 
+# This software is Copyright (c) 2010 by Moritz Onken.
+# 
+# This is free software, licensed under:
+# 
+#   The (three-clause) BSD License
+# 
 package HTML::FormFu::ExtJS::Element::Select;
-our $VERSION = '0.075';
+BEGIN {
+  $HTML::FormFu::ExtJS::Element::Select::VERSION = '0.076';
+}
 
 use base "HTML::FormFu::ExtJS::Element::_Group";
 
@@ -122,13 +133,17 @@ sub render {
 
 1;
 
+
+__END__
+=pod
+
 =head1 NAME
 
-HTML::FormFu::ExtJS::Element::Select - Select box
+HTML::FormFu::ExtJS::Element::Select
 
 =head1 VERSION
 
-version 0.075
+version 0.076
 
 =head1 DESCRIPTION
 
@@ -188,7 +203,6 @@ can be changed by setting the C<loading> attribute:
     url: /get_data
     loading: Wird geladen...
 
-
 =head3 Custom C<Ext.data.Store> instance
 
     var dataStore = new Ext.data.JsonStore({
@@ -196,9 +210,9 @@ can be changed by setting the C<loading> attribute:
         root: 'rows',
         fields: ["text", "id"]
     });
-    
+
 C</get_data> has to return a data structure like this:
-    
+
     {
        "rows" : [
           {
@@ -207,14 +221,14 @@ C</get_data> has to return a data structure like this:
           }
        ]
     }
-    
+
 To add that store to your Select field, the configuration has to look like this:
 
   - type: Select
     name: combo
     attrs:
       store: dataStore
-    
+
 You can also overwrite the field names for C<valueField> and C<displayField> by adding them to the C<attrs>:
 
     - type: Select
@@ -226,6 +240,10 @@ You can also overwrite the field names for C<valueField> and C<displayField> by 
 
 Make sure that the store is loaded before you call C<form.load()> on that form. Otherwise the combo box field cannot
 resolve the value to the corresponding label.
+
+=head1 NAME
+
+HTML::FormFu::ExtJS::Element::Select - Select box
 
 =head1 SEE ALSO
 
@@ -244,5 +262,17 @@ Copyright 2009 Moritz Onken, all rights reserved.
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
+=head1 AUTHOR
+
+  Moritz Onken <onken@netcubed.de>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Moritz Onken.
+
+This is free software, licensed under:
+
+  The (three-clause) BSD License
 
 =cut
+

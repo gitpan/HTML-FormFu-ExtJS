@@ -1,5 +1,16 @@
+# 
+# This file is part of HTML-FormFu-ExtJS
+# 
+# This software is Copyright (c) 2010 by Moritz Onken.
+# 
+# This is free software, licensed under:
+# 
+#   The (three-clause) BSD License
+# 
 package HTML::FormFu::ExtJS::Element::Multi;
-our $VERSION = '0.075';
+BEGIN {
+  $HTML::FormFu::ExtJS::Element::Multi::VERSION = '0.076';
+}
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
 use strict;
@@ -39,13 +50,17 @@ sub render {
 }
 1;
 
+
+__END__
+=pod
+
 =head1 NAME
 
-HTML::FormFu::ExtJS::Element::Multi - Multi column
+HTML::FormFu::ExtJS::Element::Multi
 
 =head1 VERSION
 
-version 0.075
+version 0.076
 
 =head1 DESCRIPTION
 
@@ -58,7 +73,7 @@ There are many ways to influence the layout of this element:
     label: Multi element
     attrs:
       width: 100
-      
+
 Specifies the width of each column
 
 =head2 individualWidth
@@ -72,7 +87,7 @@ Specifies the width of each column
         label: 1st
       - type: Text
         label: 2nd
-      
+
 Sets the individual width of the items in pixels.
 
 =head2 individualColumnWidth
@@ -86,9 +101,8 @@ Sets the individual width of the items in pixels.
         label: 1st
       - type: Text
         label: 2nd
-      
-Specifies the relative width of the columns.
 
+Specifies the relative width of the columns.
 
 Each attribute specified in C<attrs> gets passed to each column.
 This way you can change e.g. the label separator and label width:
@@ -112,6 +126,10 @@ This way you can change e.g. the label separator and label width:
       - type: Checkbox
         label: st
 
+=head1 NAME
+
+HTML::FormFu::ExtJS::Element::Multi - Multi column
+
 =head1 SEE ALSO
 
 L<HTML::FormFu::Element::Multi>
@@ -123,5 +141,17 @@ Copyright 2008 Moritz Onken, all rights reserved.
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
+=head1 AUTHOR
+
+  Moritz Onken <onken@netcubed.de>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Moritz Onken.
+
+This is free software, licensed under:
+
+  The (three-clause) BSD License
 
 =cut
+

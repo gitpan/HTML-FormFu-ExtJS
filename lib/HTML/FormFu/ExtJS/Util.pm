@@ -1,5 +1,16 @@
+# 
+# This file is part of HTML-FormFu-ExtJS
+# 
+# This software is Copyright (c) 2010 by Moritz Onken.
+# 
+# This is free software, licensed under:
+# 
+#   The (three-clause) BSD License
+# 
 package HTML::FormFu::ExtJS::Util;
-our $VERSION = '0.075';
+BEGIN {
+  $HTML::FormFu::ExtJS::Util::VERSION = '0.076';
+}
 
 use strict;
 use warnings;
@@ -42,4 +53,30 @@ sub ext_class_of {
 
     return $classname;
 }
+
+
+__END__
+=pod
+
+=head1 NAME
+
+HTML::FormFu::ExtJS::Util
+
+=head1 VERSION
+
+version 0.076
+
+=head1 AUTHOR
+
+  Moritz Onken <onken@netcubed.de>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Moritz Onken.
+
+This is free software, licensed under:
+
+  The (three-clause) BSD License
+
+=cut
 

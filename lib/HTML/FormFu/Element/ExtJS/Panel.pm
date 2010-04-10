@@ -1,5 +1,16 @@
+# 
+# This file is part of HTML-FormFu-ExtJS
+# 
+# This software is Copyright (c) 2010 by Moritz Onken.
+# 
+# This is free software, licensed under:
+# 
+#   The (three-clause) BSD License
+# 
 package HTML::FormFu::Element::ExtJS::Panel;
-our $VERSION = '0.075';
+BEGIN {
+  $HTML::FormFu::Element::ExtJS::Panel::VERSION = '0.076';
+}
 
 use strict;
 use base 'HTML::FormFu::Element::Block';
@@ -50,19 +61,25 @@ sub tt {
 
 1;
 
-__END__
+
+
+=pod
 
 =head1 NAME
 
-HTML::FormFu::Element::ExtJS::Panel - FormFu class for ExtJS panels
+HTML::FormFu::Element::ExtJS::Panel
 
 =head1 VERSION
 
-version 0.075
+version 0.076
 
 =head1 DESCRIPTION
 
 FormFu class for ExtJS panels.
+
+=head1 NAME
+
+HTML::FormFu::Element::ExtJS::Panel - FormFu class for ExtJS panels
 
 =head1 METHODS
 
@@ -85,3 +102,21 @@ Mario Minati, C<mario.minati@googlemail.com>
 
 This library is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=head1 AUTHOR
+
+  Moritz Onken <onken@netcubed.de>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Moritz Onken.
+
+This is free software, licensed under:
+
+  The (three-clause) BSD License
+
+=cut
+
+
+__END__
+

@@ -1,5 +1,16 @@
+# 
+# This file is part of HTML-FormFu-ExtJS
+# 
+# This software is Copyright (c) 2010 by Moritz Onken.
+# 
+# This is free software, licensed under:
+# 
+#   The (three-clause) BSD License
+# 
 package HTML::FormFu::ExtJS::Element::_Field;
-our $VERSION = '0.075';
+BEGIN {
+  $HTML::FormFu::ExtJS::Element::_Field::VERSION = '0.076';
+}
 
 use strict;
 use warnings;
@@ -30,19 +41,6 @@ sub render {
     };
 }
 
-=head2 record
-
-C<record> returns a HashRef with contains all informations to create a record
-field from this field element.
-
-  $class->record( $element );
-
-You can override the default values by passing an extra hashref.
-
-  $class->record( $element, { mapping => 'myname', type => 'mytype' } );
-
-
-=cut
 
 sub record {
     my $class = shift;
@@ -58,25 +56,6 @@ sub record {
     };
 }
 
-=head2 column_model
-
-C<column_model> returns a HashRef with contains all informations to create an
-entry for a column model from this field element.
-
-  $class->column_model( $element );
-
-All attributes that were given to the element configuration are added to the
-column model:
-
-  - type: Text
-    attrs:
-      width: 150
-
-You can override the defaults by passing a hashref:
-
-  $class->column_model( $element, { dataIndex => 'myIndex' } );
-    
-=cut
 
 sub column_model {
     my $class = shift;
@@ -95,3 +74,58 @@ sub column_model {
 }
 
 1;
+
+__END__
+=pod
+
+=head1 NAME
+
+HTML::FormFu::ExtJS::Element::_Field
+
+=head1 VERSION
+
+version 0.076
+
+=head2 record
+
+C<record> returns a HashRef with contains all informations to create a record
+field from this field element.
+
+  $class->record( $element );
+
+You can override the default values by passing an extra hashref.
+
+  $class->record( $element, { mapping => 'myname', type => 'mytype' } );
+
+=head2 column_model
+
+C<column_model> returns a HashRef with contains all informations to create an
+entry for a column model from this field element.
+
+  $class->column_model( $element );
+
+All attributes that were given to the element configuration are added to the
+column model:
+
+  - type: Text
+    attrs:
+      width: 150
+
+You can override the defaults by passing a hashref:
+
+  $class->column_model( $element, { dataIndex => 'myIndex' } );
+
+=head1 AUTHOR
+
+  Moritz Onken <onken@netcubed.de>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Moritz Onken.
+
+This is free software, licensed under:
+
+  The (three-clause) BSD License
+
+=cut
+

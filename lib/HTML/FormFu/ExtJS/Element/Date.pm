@@ -1,5 +1,16 @@
+# 
+# This file is part of HTML-FormFu-ExtJS
+# 
+# This software is Copyright (c) 2010 by Moritz Onken.
+# 
+# This is free software, licensed under:
+# 
+#   The (three-clause) BSD License
+# 
 package HTML::FormFu::ExtJS::Element::Date;
-our $VERSION = '0.075';
+BEGIN {
+  $HTML::FormFu::ExtJS::Element::Date::VERSION = '0.076';
+}
 
 use base "HTML::FormFu::ExtJS::Element::_Field";
 
@@ -39,13 +50,17 @@ sub column_model {
 
 1;
 
+
+__END__
+=pod
+
 =head1 NAME
 
-HTML::FormFu::ExtJS::Element::Date - Date element
+HTML::FormFu::ExtJS::Element::Date
 
 =head1 VERSION
 
-version 0.075
+version 0.076
 
 =head1 DESCRIPTION
 
@@ -64,6 +79,10 @@ The date parsing and format syntax is a subset of PHP's date() function.
 See L<http://extjs.com/deploy/dev/docs/?class=Date> for details.
 It defaults to C<Y-m-d> (which is the same as Perl's C<%Y-%m-%d>).
 
+=head1 NAME
+
+HTML::FormFu::ExtJS::Element::Date - Date element
+
 =head1 SEE ALSO
 
 L<HTML::FormFu::Element::Date>
@@ -75,5 +94,19 @@ Copyright 2008 Moritz Onken, all rights reserved.
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
+=cut
+
+=head1 AUTHOR
+
+  Moritz Onken <onken@netcubed.de>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Moritz Onken.
+
+This is free software, licensed under:
+
+  The (three-clause) BSD License
 
 =cut
+

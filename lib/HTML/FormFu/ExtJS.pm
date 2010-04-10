@@ -1,5 +1,16 @@
+# 
+# This file is part of HTML-FormFu-ExtJS
+# 
+# This software is Copyright (c) 2010 by Moritz Onken.
+# 
+# This is free software, licensed under:
+# 
+#   The (three-clause) BSD License
+# 
 package HTML::FormFu::ExtJS;
-our $VERSION = '0.075';
+BEGIN {
+  $HTML::FormFu::ExtJS::VERSION = '0.076';
+}
 use base HTML::FormFu;
 use strict;
 use warnings;
@@ -17,161 +28,8 @@ use HTML::FormFu::ExtJS::Util qw(
 );
 
 
-=head1 NAME
-
-HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
-
-=head1 VERSION
-
-version 0.075
-
-=head1 DESCRIPTION
-
-This module allows you to render ExtJS forms without changing your HTML::FormFu config file.
-
-  use HTML::FormFu::ExtJS;
-  my $form = new HTML::FormFu::ExtJS;
-  $form->load_config_file('forms/config.yml');
-
-  print $form->render;
-
-HTML::FormFu::ExtJS subclasses HTML::FormFu therefore you can access all of its methods via C<$form>.
-
-If you want to generate grid data and data records for ExtJS have a look at L<HTML::FormFu::ExtJS::Grid>.
-
-This module requires ExtJS 2.2 or greater. Most of the elements work with ExtJS 2.0 or greater too.
-
-B<This module is fully compatible with ExtJS 3.0.>
-
-=head1 EXAMPLES
-
-Check out the examples in C<examples/html>
-
-=for html <p> or online at [ <a href="http://search.cpan.org/src/PERLER/HTML-FormFu-ExtJS-0.074/examples/html">Examples</a> ]<p>
 
 
-=head1 METHODS
-
-A HTML::FormFu::ExtJS object inherits all methods of a L<HTML::FormFu> object. There are some additional methods avaiable:
-
-=head2 render
-
-Returns a full ExtJS form panel. Usually you'll use it like this (L<TT|Template> example):
-
-  var form = [% form.render %];
-
-You can pass custom attributes to this method which are added to the form config.
-
-  var form = [% form.render(renderTo = 'main') %];
-
-This will add a C<renderTo> attribute to the form config.
-
-C<form> is now a JavaScript object of type C<Ext.FormPanel>. You might want to put a handler on the button so they will
-trigger a function when clicked.
-
-  Ext.getCmp("id-of-your-button").setHandler(function() { alert('clicked') } );
-
-Or you can add the handler directly to your element:
-
-  - type: Button
-    value: Handler
-    attrs:
-      handler: function() { alert("click") }
-
-
-=head2 grid_data (experimental)
-
-This methods returns data in a format which is expected by ExtJS as perl object. You will want to serialize it with L<JSON> and send it to the client.
-
-  $form->grid_data($data);
-
-C<$data> can be a L<DBIx::Class::ResultSet> object, an arrayref of L<DBIx::Class::Row> objects or a simple perl object which should look like this:
-
-  $data = [{fieldname1 => 'value1', fieldname2 => 'value2'}];
-
-The returned perl object looks something like this:
-
-  {
-          'metaData' => {
-                        'fields' => [
-                                    {
-                                      'name' => 'artistid',
-                                      'type' => 'string'
-                                    },
-                                    {
-                                      'name' => 'name',
-                                      'type' => 'string'
-                                    }
-                                  ],
-                        'totalProperty' => 'results',
-                        'root' => 'rows'
-                      },
-          'rows' => [
-                    {
-                      'artistid' => '1',
-                      'name' => 'Caterwauler McCrae'
-                    },
-                    {
-                      'artistid' => '2',
-                      'name' => 'Random Boy Band'
-                    },
-                    {
-                      'artistid' => '3',
-                      'name' => 'We Are Goth'
-                    }
-                  ],
-          'results' => 3
-        }
-
-The C<metaData> property does some kind of magic on the client side. Read L<http://extjs.com/deploy/dev/docs/?class=Ext.data.JsonReader> for more information.
-
-Sometimes you need to send a different number of results back to the client than there are rows (e. g. paged grid view).
-Therefore you can override every item of the perl object by passing a hashref.
-
-  $form->grid_data($data, {results => 99});
-
-This will set the number of results to 99.
-
-B<Notice:>
-
-This method is considered I<experimental>. This is due to the fact that is pretty slow at the moment because
-of all the de- and inflation and accessing DBIC accessors. Future plans include that this module will be ORM
-independant and accepts Hashrefs only. This implies that you use L<DBIx::Class::ResultClass::HashRefInflator>
-or anything similar if you want to use this method.
-
-
-=over
-
-=item C<grid_data> will call all deflators specified in the form config file. 
-
-=item L<Select|HTML::FormFu::ExtJS::Select> elements will not display the acutal value but the label of the option it refers to.
-
-=back
-
-=cut
-
-
-=head2 record
-
-C<record> returns a JavaScript string which creates a C<Ext.data.Record> object from
-the C<$form> object. This is useful if you want to create C<Ext.data.Record> objects
-dynamically using JavaScript.
-
-You can add more fields by passing them to the method.
-
-  $form->record();
-  # Ext.data.Record.create( [ {'name' => 'artistid', 'type' => 'string'},
-  #                           {'name' => 'name', 'type' => 'string'} ] );
-  
-  $form->record( 'address', {'name' => 'age', type => 'date'} );
-  # Ext.data.Record.create( [ {'name' => 'artistid', 'type' => 'string'},
-  #                           {'name' => 'name', 'type' => 'string'},
-  #                           {'name' => 'age', 'type' => 'date'},
-  #                           'address' ] );
-
-To get the inner arrayref as perl object, call C<< $form->_record() >>.
-
-=cut
 
 sub render {
 	my $self = shift;
@@ -199,25 +57,7 @@ sub _render {
     
 }
 
-=head2 render_items
 
-This method returns all form elements in the JavaScript Object Notation (JSON). You can put this string
-right into the C<items> attribute of your ExtJS form panel.
-
-Fields with the C<omit_rendering> attribute set to a true value are not rendered, they are ignored.
-This feature is usefull if you have fields that are autogenerated on the client side.
-
-=head2 _render_items
-
-Acts like L</render_items> but returns a perl object instead.
-
-=cut
-
-=head2 _render_item
-
-Renders a single element.
-
-=cut
 
 sub _render_item {
     my $self = shift;
@@ -255,16 +95,6 @@ sub render_items {
 	return js_dumper( shift->_render_items );
 }
 
-=head2 render_buttons
-
-C<render_buttons> returns all buttons specified in C<$form> as a JSON string.
-Put it right into the C<buttons> attribute of your ExtJS form panel.
-
-=head2 _render_buttons
-
-Acts like L</render_buttons> but returns a perl object instead.
-
-=cut
 
 sub render_buttons {
 	my $self = shift;
@@ -403,30 +233,6 @@ sub _ext_columns {
 	return \@childs;
 }
 
-=head2 validation_response
-
-Returns the validation response ExtJS expects as a perl Object. If the submitted values have errors
-the error strings are formatted returned as well. Send this object as L<JSON> string
-back to the user if you want ExtJS to mark the invalid fields or to report a success.
-
-If the submission was successful the response contains a C<data> property which contains
-all submitted values.
-
-Examples (JSON encoded):
-
-  { "success" : false,
-    "errors"  : [
-      { "msg" : "This field is required",
-        "id"  : "field" }
-    ]
-  }
-
-
-  { "success" : true,
-    "data"    : { field : "value" }
-  }
-
-=cut
 
 *ext_validation = \&validation_response;
 
@@ -490,6 +296,7 @@ sub grid_data {
         metaData => {
             totalProperty => 'results',
             root          => 'rows',
+            idProperty => 'id',
             fields        => $self->_record
         }
     };
@@ -588,46 +395,6 @@ sub ext_grid_data {
 	
 }
 
-=head2 column_model
-
-A column model is required to render a grid. It contains all columns which should be rendered inside the grid.
-Those can be hidden or visible. A hidden form element will also result in a hidden column.
-
-A field which has options (like L<HTML::FormFu::Element::Select>) will create two columns.
-
-Example:
-
-  ---
-    default_model: HashRef
-    elements:
-        - type: Radiogroup
-          label: Sex
-          name: sex
-          options:
-              - [0, 'male']
-              - [1, 'female']
-
-This will create the following columns:
-
-        {
-          'dataIndex' : 'sexValue',
-          'hidden'    : true,
-          'id'        : 'sex-value',
-          'header'    : 'Sex'
-        },
-        {
-          'dataIndex' : 'sex',
-          'id'        : 'sex',
-          'header'    : 'Sex'
-        }
-
-The first column is hidden and contains the value of the select box (e. g. C<0> or C<1>). The
-second column contains the label of the value (e. g. C<male> or C<female>) and is visible.
-
-This way you can access both the value and the label of such a field. Notice the values of
-C<dataIndex> and C<id> on those columns. Those correspond with the output of L</grid_data>.
-
-=cut
 
 sub column_model {
 	return "new Ext.grid.ColumnModel(" . js_dumper ( shift->_column_model(@_) ) . ");";
@@ -670,6 +437,249 @@ sub _record {
 
 
 1;
+
+
+__END__
+=pod
+
+=head1 NAME
+
+HTML::FormFu::ExtJS
+
+=head1 VERSION
+
+version 0.076
+
+=head1 DESCRIPTION
+
+This module allows you to render ExtJS forms without changing your HTML::FormFu config file.
+
+  use HTML::FormFu::ExtJS;
+  my $form = new HTML::FormFu::ExtJS;
+  $form->load_config_file('forms/config.yml');
+
+  print $form->render;
+
+HTML::FormFu::ExtJS subclasses HTML::FormFu therefore you can access all of its methods via C<$form>.
+
+If you want to generate grid data and data records for ExtJS have a look at L<HTML::FormFu::ExtJS::Grid>.
+
+This module requires ExtJS 2.2 or greater. Most of the elements work with ExtJS 2.0 or greater too.
+
+B<This module is fully compatible with ExtJS 3.0.>
+
+=head1 NAME
+
+HTML::FormFu::ExtJS - Render and validate ExtJS forms using HTML::FormFu
+
+=head1 EXAMPLES
+
+Check out the examples in C<examples/html>
+
+=for html <p> or online at [ <a href="http://search.cpan.org/src/PERLER/HTML-FormFu-ExtJS-0.074/examples/html">Examples</a> ]<p>
+
+=head1 METHODS
+
+A HTML::FormFu::ExtJS object inherits all methods of a L<HTML::FormFu> object. There are some additional methods avaiable:
+
+=head2 render
+
+Returns a full ExtJS form panel. Usually you'll use it like this (L<TT|Template> example):
+
+  var form = [% form.render %];
+
+You can pass custom attributes to this method which are added to the form config.
+
+  var form = [% form.render(renderTo = 'main') %];
+
+This will add a C<renderTo> attribute to the form config.
+
+C<form> is now a JavaScript object of type C<Ext.FormPanel>. You might want to put a handler on the button so they will
+trigger a function when clicked.
+
+  Ext.getCmp("id-of-your-button").setHandler(function() { alert('clicked') } );
+
+Or you can add the handler directly to your element:
+
+  - type: Button
+    value: Handler
+    attrs:
+      handler: function() { alert("click") }
+
+=head2 grid_data (experimental)
+
+This methods returns data in a format which is expected by ExtJS as perl object. You will want to serialize it with L<JSON> and send it to the client.
+
+  $form->grid_data($data);
+
+C<$data> can be a L<DBIx::Class::ResultSet> object, an arrayref of L<DBIx::Class::Row> objects or a simple perl object which should look like this:
+
+  $data = [{fieldname1 => 'value1', fieldname2 => 'value2'}];
+
+The returned perl object looks something like this:
+
+  {
+          'metaData' => {
+                        'fields' => [
+                                    {
+                                      'name' => 'artistid',
+                                      'type' => 'string'
+                                    },
+                                    {
+                                      'name' => 'name',
+                                      'type' => 'string'
+                                    }
+                                  ],
+                        'totalProperty' => 'results',
+                        'root' => 'rows'
+                      },
+          'rows' => [
+                    {
+                      'artistid' => '1',
+                      'name' => 'Caterwauler McCrae'
+                    },
+                    {
+                      'artistid' => '2',
+                      'name' => 'Random Boy Band'
+                    },
+                    {
+                      'artistid' => '3',
+                      'name' => 'We Are Goth'
+                    }
+                  ],
+          'results' => 3
+        }
+
+The C<metaData> property does some kind of magic on the client side. Read L<http://extjs.com/deploy/dev/docs/?class=Ext.data.JsonReader> for more information.
+
+Sometimes you need to send a different number of results back to the client than there are rows (e. g. paged grid view).
+Therefore you can override every item of the perl object by passing a hashref.
+
+  $form->grid_data($data, {results => 99});
+
+This will set the number of results to 99.
+
+B<Notice:>
+
+This method is considered I<experimental>. This is due to the fact that is pretty slow at the moment because
+of all the de- and inflation and accessing DBIC accessors. Future plans include that this module will be ORM
+independant and accepts Hashrefs only. This implies that you use L<DBIx::Class::ResultClass::HashRefInflator>
+or anything similar if you want to use this method.
+
+=over
+
+=item C<grid_data> will call all deflators specified in the form config file. 
+
+=item L<Select|HTML::FormFu::ExtJS::Select> elements will not display the acutal value but the label of the option it refers to.
+
+=back
+
+=head2 record
+
+C<record> returns a JavaScript string which creates a C<Ext.data.Record> object from
+the C<$form> object. This is useful if you want to create C<Ext.data.Record> objects
+dynamically using JavaScript.
+
+You can add more fields by passing them to the method.
+
+  $form->record();
+  # Ext.data.Record.create( [ {'name' => 'artistid', 'type' => 'string'},
+  #                           {'name' => 'name', 'type' => 'string'} ] );
+  
+  $form->record( 'address', {'name' => 'age', type => 'date'} );
+  # Ext.data.Record.create( [ {'name' => 'artistid', 'type' => 'string'},
+  #                           {'name' => 'name', 'type' => 'string'},
+  #                           {'name' => 'age', 'type' => 'date'},
+  #                           'address' ] );
+
+To get the inner arrayref as perl object, call C<< $form->_record() >>.
+
+=head2 render_items
+
+This method returns all form elements in the JavaScript Object Notation (JSON). You can put this string
+right into the C<items> attribute of your ExtJS form panel.
+
+Fields with the C<omit_rendering> attribute set to a true value are not rendered, they are ignored.
+This feature is usefull if you have fields that are autogenerated on the client side.
+
+=head2 _render_items
+
+Acts like L</render_items> but returns a perl object instead.
+
+=head2 _render_item
+
+Renders a single element.
+
+=head2 render_buttons
+
+C<render_buttons> returns all buttons specified in C<$form> as a JSON string.
+Put it right into the C<buttons> attribute of your ExtJS form panel.
+
+=head2 _render_buttons
+
+Acts like L</render_buttons> but returns a perl object instead.
+
+=head2 validation_response
+
+Returns the validation response ExtJS expects as a perl Object. If the submitted values have errors
+the error strings are formatted returned as well. Send this object as L<JSON> string
+back to the user if you want ExtJS to mark the invalid fields or to report a success.
+
+If the submission was successful the response contains a C<data> property which contains
+all submitted values.
+
+Examples (JSON encoded):
+
+  { "success" : false,
+    "errors"  : [
+      { "msg" : "This field is required",
+        "id"  : "field" }
+    ]
+  }
+
+
+  { "success" : true,
+    "data"    : { field : "value" }
+  }
+
+=head2 column_model
+
+A column model is required to render a grid. It contains all columns which should be rendered inside the grid.
+Those can be hidden or visible. A hidden form element will also result in a hidden column.
+
+A field which has options (like L<HTML::FormFu::Element::Select>) will create two columns.
+
+Example:
+
+  ---
+    default_model: HashRef
+    elements:
+        - type: Radiogroup
+          label: Sex
+          name: sex
+          options:
+              - [0, 'male']
+              - [1, 'female']
+
+This will create the following columns:
+
+        {
+          'dataIndex' : 'sexValue',
+          'hidden'    : true,
+          'id'        : 'sex-value',
+          'header'    : 'Sex'
+        },
+        {
+          'dataIndex' : 'sex',
+          'id'        : 'sex',
+          'header'    : 'Sex'
+        }
+
+The first column is hidden and contains the value of the select box (e. g. C<0> or C<1>). The
+second column contains the label of the value (e. g. C<male> or C<female>) and is visible.
+
+This way you can access both the value and the label of such a field. Notice the values of
+C<dataIndex> and C<id> on those columns. Those correspond with the output of L</grid_data>.
 
 =head1 EXAMPLES
 
@@ -729,7 +739,6 @@ so that you can access it from the template.
       $c->stash($form->validation_response);
       # Make sure a JSON view is called so the stash is serialized
   }
-  
 
 javascript.tt2:
 
@@ -745,8 +754,6 @@ javascript.tt2:
       }
   }
   var form = [% form.render %];
-  
-
 
 =head1 FAQ
 
@@ -775,7 +782,7 @@ First create an element which is a HTML::FormFu::Element.
   package HTML::FormFu::Element::MyApp::MyField;
   use base qw(HTML::FormFu::Element::Text);
   1;
-  
+
 This is a very basic example for a field which is a text field.
 The ExtJS logic belongs to a different module:
 
@@ -791,8 +798,7 @@ The ExtJS logic belongs to a different module:
 Configure the form as follows:
 
   $form->populate( { elements => { type => 'MyApp::MyField', ... } } );
-  
-  
+
 If you don't want to put the element in the HTML::FormFu namespace then you have to
 prepend the class name with a C<+>. In this case the name of the ExtJS class changes
 as well:
@@ -803,7 +809,6 @@ This requires the classes C<MyApp::Element::MyField> and C<MyApp::ExtJS::Element
 The class must be in an C<Element> namespace.
 
 =head1 CAVEATS
-
 
 =head2 L<Multi|HTML::FormFu::ExtJS::Element::Multi>
 
@@ -843,19 +848,23 @@ a L<Src|HTML::FormFu::ExtJS::Element::Src> element.
 
 =item Write a Catalyst example application with validation, data grids and DBIC (sqlite).
 
-
 =back
 
 =head1 SEE ALSO
 
 L<HTML::FormFu>, L<JavaScript::Dumper>
 
-=head1 COPYRIGHT & LICENSE
+=head1 AUTHOR
 
-Copyright 2008-2009 Moritz Onken, all rights reserved.
+  Moritz Onken <onken@netcubed.de>
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
 
+This software is Copyright (c) 2010 by Moritz Onken.
+
+This is free software, licensed under:
+
+  The (three-clause) BSD License
 
 =cut
+
