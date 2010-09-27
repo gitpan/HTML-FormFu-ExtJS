@@ -1,13 +1,13 @@
 #!perl
-# 
+#
 # This file is part of HTML-FormFu-ExtJS
-# 
+#
 # This software is Copyright (c) 2010 by Moritz Onken.
-# 
+#
 # This is free software, licensed under:
-# 
+#
 #   The (three-clause) BSD License
-# 
+#
 
 BEGIN {
   unless ($ENV{AUTHOR_TESTING}) {
@@ -25,4 +25,5 @@ use English qw(-no_match_vars);
 
 eval "use Test::Perl::Critic";
 plan skip_all => 'Test::Perl::Critic required to criticise code' if $@;
+Test::Perl::Critic->import( -profile => "perlcritic.rc" ) if -e "perlcritic.rc";
 all_critic_ok();

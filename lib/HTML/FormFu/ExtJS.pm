@@ -1,15 +1,15 @@
-# 
+#
 # This file is part of HTML-FormFu-ExtJS
-# 
+#
 # This software is Copyright (c) 2010 by Moritz Onken.
-# 
+#
 # This is free software, licensed under:
-# 
+#
 #   The (three-clause) BSD License
-# 
+#
 package HTML::FormFu::ExtJS;
 BEGIN {
-  $HTML::FormFu::ExtJS::VERSION = '0.076';
+  $HTML::FormFu::ExtJS::VERSION = '0.077';
 }
 use base HTML::FormFu;
 use strict;
@@ -73,7 +73,8 @@ sub _render_items {
 	my $output = [];
 	foreach my $element ( @{ $from->get_elements() } ) {
 		next
-		  if ( $element->type eq "Submit"
+		  if ( !$element 
+		    || $element->type eq "Submit"
 			|| $element->type eq "Button"
 			|| $element->type eq "Reset"
 			|| $element->type eq "ContentButton" );
@@ -81,14 +82,12 @@ sub _render_items {
         # omit rendering field with 'omit_rendering' flag
         next
             if( defined $element->attributes()->{omit_rendering} && $element->attributes()->{omit_rendering} );
-
         push( @{$output}, $self->_render_item( $element ) );
 	}
 
     # remove undef elements
     $output = [ grep { defined $_ } @{$output} ];
-
-	return $output;
+    return $output;
 }
 
 sub render_items {
@@ -205,17 +204,16 @@ sub ext_items {
 sub _get_attributes {
 	my ( $self, $source ) = @_;
 	my $obj = {};
-	foreach my $attr ( "attrs_xml", "attrs" ) {
-		my @keys = keys %{ $source->$attr };
-		for my $key (@keys) {
-            my $type = ref( $source->$attr->{$key} );
-            if ($type eq "HTML::FormFu::Literal") {
-                $obj->{$key} = "" . $source->$attr->{$key};
-            } else {
-                $obj->{$key} = $source->$attr->{$key};
-            }
-		}
+	my @keys = keys %{ $source->attrs };
+	for my $key (@keys) {
+        my $type = ref( $source->attrs->{$key} );
+        if ($type eq "HTML::FormFu::Literal") {
+            $obj->{$key} = "" . $source->attrs->{$key};
+        } else {
+            $obj->{$key} = $source->attrs->{$key};
+        }
 	}
+	
 	return %{$obj};
 }
 
@@ -448,7 +446,7 @@ HTML::FormFu::ExtJS
 
 =head1 VERSION
 
-version 0.076
+version 0.077
 
 =head1 DESCRIPTION
 
@@ -856,7 +854,7 @@ L<HTML::FormFu>, L<JavaScript::Dumper>
 
 =head1 AUTHOR
 
-  Moritz Onken <onken@netcubed.de>
+Moritz Onken <onken@netcubed.de>
 
 =head1 COPYRIGHT AND LICENSE
 

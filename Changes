@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::FormFu::ExtJS.
 
+0.077 2010-09-27
+    - fixed compat with FormFu 0.08
+
 0.076 2010-04-10
     - Added ExtJS::TabPanel element
     - metaData includes idProperty

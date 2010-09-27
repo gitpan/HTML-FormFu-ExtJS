@@ -1,15 +1,15 @@
-# 
+#
 # This file is part of HTML-FormFu-ExtJS
-# 
+#
 # This software is Copyright (c) 2010 by Moritz Onken.
-# 
+#
 # This is free software, licensed under:
-# 
+#
 #   The (three-clause) BSD License
-# 
+#
 package HTML::FormFu::ExtJS::Element::Block;
 BEGIN {
-  $HTML::FormFu::ExtJS::Element::Block::VERSION = '0.076';
+  $HTML::FormFu::ExtJS::Element::Block::VERSION = '0.077';
 }
 
 
@@ -36,11 +36,11 @@ HTML::FormFu::ExtJS::Element::Block
 
 =head1 VERSION
 
-version 0.076
+version 0.077
 
 =head1 AUTHOR
 
-  Moritz Onken <onken@netcubed.de>
+Moritz Onken <onken@netcubed.de>
 
 =head1 COPYRIGHT AND LICENSE
 
