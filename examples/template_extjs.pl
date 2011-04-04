@@ -1,7 +1,7 @@
 #
 # This file is part of HTML-FormFu-ExtJS
 #
-# This software is Copyright (c) 2010 by Moritz Onken.
+# This software is Copyright (c) 2011 by Moritz Onken.
 #
 # This is free software, licensed under:
 #
@@ -16,9 +16,9 @@ sub render_extjs {
 <head>
 <title>$param{form}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="../ext/resources/css/ext-all.css"/>
-    <script type="text/javascript" src="../ext/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="../ext/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.3.1/resources/css/ext-all.css">
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.3.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.3.1/ext-all.js"></script>
 <script type="text/Javascript">
 
 Ext.onReady(function(){

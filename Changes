@@ -1,5 +1,9 @@
 Revision history for Perl extension HTML::FormFu::ExtJS.
 
+0.090 2011-04-04
+    - FormFu 0.09 compat
+    - silenced test warnings
+
 0.077 2010-09-27
     - fixed compat with FormFu 0.08
 

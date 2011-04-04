@@ -4,14 +4,14 @@
 <head>
 <title>simple_table</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="../ext/resources/css/ext-all.css"/>
-    <script type="text/javascript" src="../ext/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="../ext/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.3.1/resources/css/ext-all.css">
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.3.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.3.1/ext-all.js"></script>
 <script type="text/Javascript">
 
 Ext.onReady(function(){
 
-    var simple = new Ext.FormPanel({"width":800,"baseParams":{"x-requested-by":"ExtJS"},"frame":true,"action":"","title":"HTML::FormFu::ExtJS - simple_table","method":"post","buttons":[],"items":[{"nestedName":null,"autoHeight":1,"xtype":"fieldset","items":[{"layout":"column","items":[{"layout":"form","columnWidth":"0.5","items":[{"xtype":"label","cls":"x-form-check-group-label","anchor":"-15","text":"foo"},{"hideLabel":true,"name":"foo","xtype":"textfield","fieldLabel":null},{"hideLabel":1,"boxLabel":null,"name":"foo","xtype":"radio","fieldLabel":null}]},{"layout":"form","columnWidth":"0.5","items":[{"xtype":"label","cls":"x-form-check-group-label","anchor":"-15","text":"bar"},{"hideLabel":true,"name":"bar","xtype":"textfield","fieldLabel":null},{"hideLabel":1,"boxLabel":null,"name":"bar","xtype":"radio","fieldLabel":null}]}]},{"html":"Table without header"},{"layout":"column","items":[{"layout":"form","columnWidth":"0.5","items":[{"hideLabel":true,"name":"foo","xtype":"textfield","fieldLabel":null},{"hideLabel":1,"boxLabel":null,"name":"foo","xtype":"radio","fieldLabel":null}]},{"layout":"form","columnWidth":"0.5","items":[{"hideLabel":true,"name":"bar","xtype":"textfield","fieldLabel":null},{"hideLabel":1,"boxLabel":null,"name":"bar","xtype":"radio","fieldLabel":null}]}]}]}]});;
+    var simple = new Ext.FormPanel({"width":800,"baseParams":{"x-requested-by":"ExtJS"},"frame":true,"action":"","title":"HTML::FormFu::ExtJS - simple_table","method":"post","buttons":[],"items":[{"nestedName":null,"xtype":"fieldset","autoHeight":1,"items":[{"layout":"column","items":[{"layout":"form","columnWidth":"0.5","items":[{"cls":"x-form-check-group-label","anchor":"-15","text":"foo","xtype":"label"},{"hideLabel":true,"name":"foo","fieldLabel":null,"xtype":"textfield"},{"boxLabel":null,"hideLabel":1,"name":"foo","fieldLabel":null,"xtype":"radio"}]},{"layout":"form","columnWidth":"0.5","items":[{"cls":"x-form-check-group-label","anchor":"-15","text":"bar","xtype":"label"},{"hideLabel":true,"name":"bar","fieldLabel":null,"xtype":"textfield"},{"boxLabel":null,"hideLabel":1,"name":"bar","fieldLabel":null,"xtype":"radio"}]}]},{"html":"Table without header"},{"layout":"column","items":[{"layout":"form","columnWidth":"0.5","items":[{"hideLabel":true,"name":"foo","fieldLabel":null,"xtype":"textfield"},{"boxLabel":null,"hideLabel":1,"name":"foo","fieldLabel":null,"xtype":"radio"}]},{"layout":"form","columnWidth":"0.5","items":[{"hideLabel":true,"name":"bar","fieldLabel":null,"xtype":"textfield"},{"boxLabel":null,"hideLabel":1,"name":"bar","fieldLabel":null,"xtype":"radio"}]}]}]}]});;
 
     simple.render(document.body);
 });

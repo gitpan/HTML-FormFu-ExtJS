@@ -1,7 +1,7 @@
 #
 # This file is part of HTML-FormFu-ExtJS
 #
-# This software is Copyright (c) 2010 by Moritz Onken.
+# This software is Copyright (c) 2011 by Moritz Onken.
 #
 # This is free software, licensed under:
 #
@@ -9,7 +9,7 @@
 #
 package HTML::FormFu::ExtJS::Element::Checkboxgroup;
 BEGIN {
-  $HTML::FormFu::ExtJS::Element::Checkboxgroup::VERSION = '0.077';
+  $HTML::FormFu::ExtJS::Element::Checkboxgroup::VERSION = '0.090';
 }
 
 use base "HTML::FormFu::ExtJS::Element::_Group";
@@ -37,7 +37,7 @@ HTML::FormFu::ExtJS::Element::Checkboxgroup
 
 =head1 VERSION
 
-version 0.077
+version 0.090
 
 =head1 AUTHOR
 
@@ -45,7 +45,7 @@ Moritz Onken <onken@netcubed.de>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2010 by Moritz Onken.
+This software is Copyright (c) 2011 by Moritz Onken.
 
 This is free software, licensed under:
 

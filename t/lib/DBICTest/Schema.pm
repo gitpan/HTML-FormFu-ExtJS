@@ -1,7 +1,7 @@
 #
 # This file is part of HTML-FormFu-ExtJS
 #
-# This software is Copyright (c) 2010 by Moritz Onken.
+# This software is Copyright (c) 2011 by Moritz Onken.
 #
 # This is free software, licensed under:
 #
@@ -19,7 +19,6 @@ __PACKAGE__->load_classes(qw/
   SequenceTest
   Employee
   CD
-  FileColumn
   Link
   Bookmark
   #dummy

@@ -1,7 +1,7 @@
 #
 # This file is part of HTML-FormFu-ExtJS
 #
-# This software is Copyright (c) 2010 by Moritz Onken.
+# This software is Copyright (c) 2011 by Moritz Onken.
 #
 # This is free software, licensed under:
 #
@@ -9,25 +9,14 @@
 #
 package HTML::FormFu::Element::ExtJS::Panel;
 BEGIN {
-  $HTML::FormFu::Element::ExtJS::Panel::VERSION = '0.077';
+  $HTML::FormFu::Element::ExtJS::Panel::VERSION = '0.090';
 }
-
-use strict;
-use base 'HTML::FormFu::Element::Block';
-use Class::C3;
-
-__PACKAGE__->mk_item_accessors( qw( xtype ) );
+use Moose;
+extends 'HTML::FormFu::Element::Block';
 
 __PACKAGE__->mk_output_accessors( qw( title label ) );
 
-
-sub new {
-    my $self = shift->next::method(@_);
-
-    $self->xtype( 'panel' );
-
-    return $self;
-}
+has xtype => ( is => 'ro', default => 'panel' );
 
 sub render_data_non_recursive {
     my ( $self, $args ) = @_;
@@ -71,7 +60,7 @@ HTML::FormFu::Element::ExtJS::Panel
 
 =head1 VERSION
 
-version 0.077
+version 0.090
 
 =head1 DESCRIPTION
 
@@ -109,7 +98,7 @@ Moritz Onken <onken@netcubed.de>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2010 by Moritz Onken.
+This software is Copyright (c) 2011 by Moritz Onken.
 
 This is free software, licensed under:
 
